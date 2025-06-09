@@ -162,7 +162,7 @@ const Academics = () => {
                     "Self-efficacy"
                   ].map((item, index) => (
                     <div key={index} className="flex items-center space-x-3">
-                      <Checkbox id={`competency-${index}`} checked readOnly />
+                      <Checkbox id={`competency-${index}`} checked disabled />
                       <label
                         htmlFor={`competency-${index}`}
                         className="text-sm font-medium text-gray-700 leading-none"
@@ -188,7 +188,7 @@ const Academics = () => {
                     "Social justice"
                   ].map((item, index) => (
                     <div key={index} className="flex items-center space-x-3">
-                      <Checkbox id={`value-${index}`} checked readOnly />
+                      <Checkbox id={`value-${index}`} checked disabled />
                       <label
                         htmlFor={`value-${index}`}
                         className="text-sm font-medium text-gray-700 leading-none"

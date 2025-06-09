@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar, ChevronRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layouts/Navigation";
