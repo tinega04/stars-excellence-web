@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, Phone, Mail, MapPin, Calendar, Instagram, Facebook, ChevronRight } from "lucide-react";
+import { Menu, X, Phone, Mail, MapPin, Calendar, Instagram, Facebook, ChevronRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Helper Components
@@ -32,6 +32,7 @@ function MobileNavLink({ href, active, children }: { href: string; active?: bool
 // Main App Component
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPortalsDropdownOpen, setIsPortalsDropdownOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -51,13 +52,51 @@ const Index = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-6">
+            <div className="hidden md:flex space-x-6 items-center">
               <NavLink href="/" active>Home</NavLink>
               <NavLink href="/about">About Us</NavLink>
               <NavLink href="/academics">Academics</NavLink>
               <NavLink href="/campuses">Campuses</NavLink>
               <NavLink href="/admissions">Admissions</NavLink>
               <NavLink href="/contact">Contact</NavLink>
+              
+              {/* Portals Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsPortalsDropdownOpen(!isPortalsDropdownOpen)}
+                  className="flex items-center font-medium text-gray-600 hover:text-blue-700 transition duration-300"
+                >
+                  Portals
+                  <ChevronDown size={16} className="ml-1" />
+                </button>
+                {isPortalsDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border">
+                    <div className="py-1">
+                      <Link
+                        to="/portal/learner"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
+                        onClick={() => setIsPortalsDropdownOpen(false)}
+                      >
+                        Learner Portal
+                      </Link>
+                      <Link
+                        to="/portal/teacher"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
+                        onClick={() => setIsPortalsDropdownOpen(false)}
+                      >
+                        Teacher Portal
+                      </Link>
+                      <Link
+                        to="/portal/staff"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
+                        onClick={() => setIsPortalsDropdownOpen(false)}
+                      >
+                        Staff Portal
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -81,6 +120,12 @@ const Index = () => {
                 <MobileNavLink href="/campuses">Campuses</MobileNavLink>
                 <MobileNavLink href="/admissions">Admissions</MobileNavLink>
                 <MobileNavLink href="/contact">Contact</MobileNavLink>
+                <div className="border-t pt-2 mt-2">
+                  <p className="text-xs text-gray-500 mb-2">Portals</p>
+                  <MobileNavLink href="/portal/learner">Learner Portal</MobileNavLink>
+                  <MobileNavLink href="/portal/teacher">Teacher Portal</MobileNavLink>
+                  <MobileNavLink href="/portal/staff">Staff Portal</MobileNavLink>
+                </div>
               </div>
             </div>
           </div>

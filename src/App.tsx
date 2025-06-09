@@ -11,6 +11,7 @@ import Academics from "./pages/Academics";
 import Campuses from "./pages/Campuses";
 import Admissions from "./pages/Admissions";
 import Contact from "./pages/Contact";
+import Portals from "./pages/Portals";
 import NotFound from "./pages/NotFound";
 
 // Portal imports
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/campuses" element={<Campuses />} />
             <Route path="/admissions" element={<Admissions />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/portals" element={<Portals />} />
             
             {/* Learner portal routes */}
             <Route path="/portal/learner" element={<LearnerDashboard />} />
