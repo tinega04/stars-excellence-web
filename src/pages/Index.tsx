@@ -1,12 +1,52 @@
 
+
 import { useState } from "react";
 import { Calendar, ChevronRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import Autoplay from "embla-carousel-autoplay";
 
 const Index = () => {
+  const heroSlides = [
+    {
+      title: "Welcome to Stevens Integrated Schools",
+      subtitle: "Stars of Excellence",
+      description: "Nurturing young minds through quality education and the Competency-Based Curriculum across our Nairobi and Kitengela campuses.",
+      primaryCTA: { text: "Enroll Today", link: "/admissions" },
+      secondaryCTA: { text: "Explore Programs", link: "/academics" },
+      backgroundImage: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&h=900&q=80",
+      alt: "Students learning in a modern classroom at Stevens Integrated Schools"
+    },
+    {
+      title: "CBC Curriculum Excellence",
+      subtitle: "Building Tomorrow's Leaders",
+      description: "We implement the Competency-Based Curriculum that focuses on developing essential skills, knowledge, and attitudes for holistic growth.",
+      primaryCTA: { text: "Learn More", link: "/academics" },
+      secondaryCTA: { text: "Visit Campus", link: "/campuses" },
+      backgroundImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1600&h=900&q=80",
+      alt: "Students engaged in CBC curriculum activities"
+    },
+    {
+      title: "Two Modern Campuses",
+      subtitle: "Nairobi & Kitengela",
+      description: "State-of-the-art facilities in Imara Daima, Nairobi and spacious grounds in Airview, Kitengela - both designed for excellence.",
+      primaryCTA: { text: "Explore Campuses", link: "/campuses" },
+      secondaryCTA: { text: "Contact Us", link: "/contact" },
+      backgroundImage: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1600&h=900&q=80",
+      alt: "Modern campus facilities at Stevens Integrated Schools"
+    }
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
@@ -18,31 +58,62 @@ const Index = () => {
       <Navigation />
 
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
-          <div className="absolute inset-0 opacity-20">
-            <img 
-              src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&h=900&q=80" 
-              alt="Students learning in a modern classroom at Stevens Integrated Schools" 
-              className="object-cover w-full h-full"
-              loading="eager"
-            />
-          </div>
-          <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center z-10">
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-blue-800 mb-4 max-w-4xl leading-tight">
-              Welcome to Stevens Integrated Schools
-            </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-blue-600 italic mb-8 font-medium">Stars of Excellence</p>
-            <p className="text-gray-700 mb-8 max-w-2xl text-sm md:text-base lg:text-lg leading-relaxed">
-              Nurturing young minds through quality education and the Competency-Based Curriculum across our Nairobi and Kitengela campuses.
-            </p>
-            <Link 
-              to="/admissions"
-              className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-lg shadow-lg transition duration-300 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300"
-            >
-              Enroll Today
-            </Link>
-          </div>
+        {/* Hero Carousel Section */}
+        <section className="relative">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 5000,
+              }),
+            ]}
+            className="w-full"
+          >
+            <CarouselContent>
+              {heroSlides.map((slide, index) => (
+                <CarouselItem key={index}>
+                  <div className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
+                    <div className="absolute inset-0 opacity-20">
+                      <img 
+                        src={slide.backgroundImage}
+                        alt={slide.alt}
+                        className="object-cover w-full h-full"
+                        loading={index === 0 ? "eager" : "lazy"}
+                      />
+                    </div>
+                    <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center z-10">
+                      <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-blue-800 mb-4 max-w-4xl leading-tight">
+                        {slide.title}
+                      </h1>
+                      <p className="text-lg md:text-xl lg:text-2xl text-blue-600 italic mb-8 font-medium">
+                        {slide.subtitle}
+                      </p>
+                      <p className="text-gray-700 mb-8 max-w-2xl text-sm md:text-base lg:text-lg leading-relaxed">
+                        {slide.description}
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <Button asChild size="lg" className="bg-blue-700 hover:bg-blue-800">
+                          <Link to={slide.primaryCTA.link}>
+                            {slide.primaryCTA.text}
+                          </Link>
+                        </Button>
+                        <Button asChild variant="outline" size="lg" className="border-blue-700 text-blue-700 hover:bg-blue-50">
+                          <Link to={slide.secondaryCTA.link}>
+                            {slide.secondaryCTA.text}
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4 md:left-8" />
+            <CarouselNext className="right-4 md:right-8" />
+          </Carousel>
         </section>
 
         {/* Campuses Section */}
@@ -312,3 +383,4 @@ const Index = () => {
 }
 
 export default Index;
+
