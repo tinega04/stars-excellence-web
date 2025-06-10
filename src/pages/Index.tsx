@@ -1,5 +1,4 @@
 
-
 import { useState } from "react";
 import { Calendar, ChevronRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -19,31 +18,31 @@ import Autoplay from "embla-carousel-autoplay";
 const Index = () => {
   const heroSlides = [
     {
-      title: "Welcome to Stevens Integrated Schools",
-      subtitle: "Stars of Excellence",
-      description: "Nurturing young minds through quality education and the Competency-Based Curriculum across our Nairobi and Kitengela campuses.",
-      primaryCTA: { text: "Enroll Today", link: "/admissions" },
-      secondaryCTA: { text: "Explore Programs", link: "/academics" },
+      title: "Nurturing Excellence From The Start",
+      subtitle: "",
+      description: "Empowering young minds through holistic education tailored for tomorrow's leaders.",
+      primaryCTA: { text: "Explore Our Programs", link: "/academics" },
+      secondaryCTA: null,
       backgroundImage: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Students learning in a modern classroom at Stevens Integrated Schools"
+      alt: "Clean classroom environment for student learning"
     },
     {
-      title: "CBC Curriculum Excellence",
-      subtitle: "Building Tomorrow's Leaders",
-      description: "We implement the Competency-Based Curriculum that focuses on developing essential skills, knowledge, and attitudes for holistic growth.",
-      primaryCTA: { text: "Learn More", link: "/academics" },
-      secondaryCTA: { text: "Visit Campus", link: "/campuses" },
+      title: "A Foundation for Lifelong Success",
+      subtitle: "",
+      description: "We prepare learners to think critically, act ethically, and grow confidently.",
+      primaryCTA: { text: "Learn More", link: "/about" },
+      secondaryCTA: null,
       backgroundImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Students engaged in CBC curriculum activities"
+      alt: "Students engaged in academic activities"
     },
     {
-      title: "Two Modern Campuses",
-      subtitle: "Nairobi & Kitengela",
-      description: "State-of-the-art facilities in Imara Daima, Nairobi and spacious grounds in Airview, Kitengela - both designed for excellence.",
-      primaryCTA: { text: "Explore Campuses", link: "/campuses" },
-      secondaryCTA: { text: "Contact Us", link: "/contact" },
+      title: "Tech Meets Tradition",
+      subtitle: "",
+      description: "We blend modern skills like coding and debate with strong academic values.",
+      primaryCTA: { text: "See Our Vision", link: "/about" },
+      secondaryCTA: null,
       backgroundImage: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Modern campus facilities at Stevens Integrated Schools"
+      alt: "Children using laptops and learning together with technology"
     }
   ];
 
@@ -88,9 +87,6 @@ const Index = () => {
                       <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-blue-800 mb-4 max-w-4xl leading-tight">
                         {slide.title}
                       </h1>
-                      <p className="text-lg md:text-xl lg:text-2xl text-blue-600 italic mb-8 font-medium">
-                        {slide.subtitle}
-                      </p>
                       <p className="text-gray-700 mb-8 max-w-2xl text-sm md:text-base lg:text-lg leading-relaxed">
                         {slide.description}
                       </p>
@@ -98,11 +94,6 @@ const Index = () => {
                         <Button asChild size="lg" className="bg-blue-700 hover:bg-blue-800">
                           <Link to={slide.primaryCTA.link}>
                             {slide.primaryCTA.text}
-                          </Link>
-                        </Button>
-                        <Button asChild variant="outline" size="lg" className="border-blue-700 text-blue-700 hover:bg-blue-50">
-                          <Link to={slide.secondaryCTA.link}>
-                            {slide.secondaryCTA.text}
                           </Link>
                         </Button>
                       </div>
@@ -383,4 +374,3 @@ const Index = () => {
 }
 
 export default Index;
-

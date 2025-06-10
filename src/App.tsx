@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,7 @@ import Campuses from "./pages/Campuses";
 import Admissions from "./pages/Admissions";
 import Contact from "./pages/Contact";
 import Portals from "./pages/Portals";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 // Portal imports
@@ -23,6 +23,11 @@ import TeacherMaterials from "./pages/portal/teacher/LearningMaterials";
 import TeacherClasses from "./pages/portal/teacher/ClassManagement";
 import StaffDashboard from "./pages/portal/staff/Dashboard";
 import StaffResults from "./pages/portal/staff/StudentResults";
+
+// New portal pages
+import LearnerPortal from "./pages/portal/LearnerPortal";
+import StaffPortal from "./pages/portal/StaffPortal";
+import LearningPortal from "./pages/portal/LearningPortal";
 
 const queryClient = new QueryClient();
 
@@ -42,9 +47,15 @@ const App = () => (
             <Route path="/admissions" element={<Admissions />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/portals" element={<Portals />} />
+            <Route path="/login" element={<Login />} />
             
-            {/* Learner portal routes */}
-            <Route path="/portal/learner" element={<LearnerDashboard />} />
+            {/* New portal routes */}
+            <Route path="/portal/learner" element={<LearnerPortal />} />
+            <Route path="/portal/staff" element={<StaffPortal />} />
+            <Route path="/portal/learning" element={<LearningPortal />} />
+            
+            {/* Existing detailed portal routes */}
+            <Route path="/portal/learner/dashboard" element={<LearnerDashboard />} />
             <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
             <Route path="/portal/learner/fees" element={<LearnerFees />} />
             
@@ -53,8 +64,8 @@ const App = () => (
             <Route path="/portal/teacher/materials" element={<TeacherMaterials />} />
             <Route path="/portal/teacher/classes" element={<TeacherClasses />} />
             
-            {/* Staff portal routes */}
-            <Route path="/portal/staff" element={<StaffDashboard />} />
+            {/* Staff portal detailed routes */}
+            <Route path="/portal/staff/dashboard" element={<StaffDashboard />} />
             <Route path="/portal/staff/results" element={<StaffResults />} />
             
             {/* 404 route */}

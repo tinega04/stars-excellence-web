@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 interface NavLinkProps {
   href: string;
@@ -92,26 +93,11 @@ const Navigation = () => {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-100">
                   <div className="py-1">
                     <Link
-                      to="/portals"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
-                      onClick={() => setIsPortalsDropdownOpen(false)}
-                    >
-                      Portal Access
-                    </Link>
-                    <div className="border-t border-gray-100 my-1"></div>
-                    <Link
                       to="/portal/learner"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
                       onClick={() => setIsPortalsDropdownOpen(false)}
                     >
                       Learner Portal
-                    </Link>
-                    <Link
-                      to="/portal/teacher"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
-                      onClick={() => setIsPortalsDropdownOpen(false)}
-                    >
-                      Teacher Portal
                     </Link>
                     <Link
                       to="/portal/staff"
@@ -120,9 +106,26 @@ const Navigation = () => {
                     >
                       Staff Portal
                     </Link>
+                    <Link
+                      to="/portal/learning"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
+                      onClick={() => setIsPortalsDropdownOpen(false)}
+                    >
+                      Learning Portal
+                    </Link>
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center space-x-3 ml-4">
+              <Button asChild variant="outline" size="sm">
+                <Link to="/admissions">Apply Now</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link to="/login">Login</Link>
+              </Button>
             </div>
           </div>
 
@@ -150,10 +153,17 @@ const Navigation = () => {
               <MobileNavLink href="/contact" active={isActive('/contact')}>Contact</MobileNavLink>
               <div className="border-t pt-2 mt-2">
                 <p className="text-xs text-gray-500 mb-2 font-medium">Portals</p>
-                <MobileNavLink href="/portals" active={isActive('/portals')}>Portal Access</MobileNavLink>
                 <MobileNavLink href="/portal/learner" active={isActive('/portal/learner')}>Learner Portal</MobileNavLink>
-                <MobileNavLink href="/portal/teacher" active={isActive('/portal/teacher')}>Teacher Portal</MobileNavLink>
                 <MobileNavLink href="/portal/staff" active={isActive('/portal/staff')}>Staff Portal</MobileNavLink>
+                <MobileNavLink href="/portal/learning" active={isActive('/portal/learning')}>Learning Portal</MobileNavLink>
+              </div>
+              <div className="border-t pt-2 mt-2 flex flex-col space-y-2">
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/admissions" onClick={closeMenu}>Apply Now</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link to="/login" onClick={closeMenu}>Login</Link>
+                </Button>
               </div>
             </div>
           </div>
