@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Calendar, ChevronRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
+import SEOHelmet from "@/components/layouts/SEOHelmet";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import {
   Carousel,
   CarouselContent,
@@ -48,17 +48,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Helmet>
-        <title>Stevens Integrated Schools | Stars of Excellence</title>
-        <meta name="description" content="Stevens Integrated Schools - Nurturing excellence in education through CBC curriculum across our Nairobi and Kitengela campuses. Quality education for kindergarten through junior school." />
-        <meta name="keywords" content="Stevens Integrated Schools, CBC curriculum, quality education Kenya, Nairobi schools, Kitengela schools, private schools Kenya" />
-      </Helmet>
+      <SEOHelmet />
 
       <Navigation />
 
       <main className="flex-grow">
         {/* Hero Carousel Section */}
-        <section className="relative">
+        <section className="relative" aria-label="Hero carousel">
           <Carousel
             opts={{
               align: "start",
@@ -74,13 +70,16 @@ const Index = () => {
             <CarouselContent>
               {heroSlides.map((slide, index) => (
                 <CarouselItem key={index}>
-                  <div className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
+                  <article className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
                     <div className="absolute inset-0 opacity-20">
-                      <img 
+                      <OptimizedImage 
                         src={slide.backgroundImage}
                         alt={slide.alt}
-                        className="object-cover w-full h-full"
+                        className="w-full h-full object-cover"
                         loading={index === 0 ? "eager" : "lazy"}
+                        priority={index === 0}
+                        width={1600}
+                        height={900}
                       />
                     </div>
                     <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center z-10">
@@ -92,35 +91,37 @@ const Index = () => {
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Button asChild size="lg" className="bg-blue-700 hover:bg-blue-800">
-                          <Link to={slide.primaryCTA.link}>
+                          <Link to={slide.primaryCTA.link} aria-label={`${slide.primaryCTA.text} - Learn more about our programs`}>
                             {slide.primaryCTA.text}
                           </Link>
                         </Button>
                       </div>
                     </div>
-                  </div>
+                  </article>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-4 md:left-8" />
-            <CarouselNext className="right-4 md:right-8" />
+            <CarouselPrevious className="left-4 md:left-8" aria-label="Previous slide" />
+            <CarouselNext className="right-4 md:right-8" aria-label="Next slide" />
           </Carousel>
         </section>
 
         {/* Campuses Section */}
-        <section className="py-12 md:py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white" aria-labelledby="campuses-heading">
           <div className="container mx-auto px-4">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-center text-blue-800 mb-8 md:mb-12">Our Campuses</h2>
+            <h2 id="campuses-heading" className="font-serif text-2xl md:text-3xl font-bold text-center text-blue-800 mb-8 md:mb-12">Our Campuses</h2>
             
             <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
               {/* Nairobi Campus */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <article className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <div className="h-48 md:h-64 overflow-hidden">
-                  <img 
+                  <OptimizedImage 
                     src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&h=500&q=80" 
                     alt="Stevens Integrated Schools Nairobi Campus in Imara Daima with modern facilities" 
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     loading="lazy"
+                    width={800}
+                    height={500}
                   />
                 </div>
                 <div className="p-6">
@@ -129,27 +130,30 @@ const Index = () => {
                     Located in Imara Daima, our flagship campus offers state-of-the-art facilities and a nurturing learning environment for students from kindergarten through junior school.
                   </p>
                   <div className="flex items-center text-sm text-gray-500 mb-4">
-                    <MapPin size={16} className="mr-2" />
+                    <MapPin size={16} className="mr-2" aria-hidden="true" />
                     <span>Imara Daima, Nairobi</span>
                   </div>
                   <Link 
                     to="/campuses"
                     className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300 group"
+                    aria-label="Learn more about our Nairobi campus"
                   >
                     Learn More 
-                    <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </Link>
                 </div>
-              </div>
+              </article>
               
               {/* Kitengela Campus */}
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <article className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <div className="h-48 md:h-64 overflow-hidden">
-                  <img 
+                  <OptimizedImage 
                     src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&h=500&q=80" 
                     alt="Stevens Integrated Schools Kitengela Campus in Airview with spacious grounds" 
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     loading="lazy"
+                    width={800}
+                    height={500}
                   />
                 </div>
                 <div className="p-6">
@@ -158,18 +162,19 @@ const Index = () => {
                     Our Airview campus provides a spacious and serene environment for learning, with modern facilities set on expansive grounds perfect for holistic development.
                   </p>
                   <div className="flex items-center text-sm text-gray-500 mb-4">
-                    <MapPin size={16} className="mr-2" />
+                    <MapPin size={16} className="mr-2" aria-hidden="true" />
                     <span>Airview, Kitengela</span>
                   </div>
                   <Link 
                     to="/campuses"
                     className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300 group"
+                    aria-label="Learn more about our Kitengela campus"
                   >
                     Learn More 
-                    <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </Link>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </section>
