@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -20,7 +21,7 @@ const Portals = lazy(() => import("./pages/Portals"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Portal imports
+// Portal imports - Updated routing
 const LearnerDashboard = lazy(() => import("./pages/portal/learner/Dashboard"));
 const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
 const LearnerFees = lazy(() => import("./pages/portal/learner/FeeStatements"));
@@ -73,24 +74,22 @@ const App = () => (
               <Route path="/portals" element={<Portals />} />
               <Route path="/login" element={<Login />} />
               
-              {/* New portal routes */}
-              <Route path="/portal/learner" element={<LearnerPortal />} />
-              <Route path="/portal/staff" element={<StaffPortal />} />
-              <Route path="/portal/learning" element={<LearningPortal />} />
+              {/* Portal dashboard routes - Main entry points */}
+              <Route path="/portal/learner" element={<LearnerDashboard />} />
+              <Route path="/portal/teacher" element={<TeacherDashboard />} />
+              <Route path="/portal/staff" element={<StaffDashboard />} />
               
-              {/* Existing detailed portal routes */}
-              <Route path="/portal/learner/dashboard" element={<LearnerDashboard />} />
+              {/* Additional portal routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
               <Route path="/portal/learner/fees" element={<LearnerFees />} />
-              
-              {/* Teacher portal routes */}
-              <Route path="/portal/teacher" element={<TeacherDashboard />} />
               <Route path="/portal/teacher/materials" element={<TeacherMaterials />} />
               <Route path="/portal/teacher/classes" element={<TeacherClasses />} />
-              
-              {/* Staff portal detailed routes */}
-              <Route path="/portal/staff/dashboard" element={<StaffDashboard />} />
               <Route path="/portal/staff/results" element={<StaffResults />} />
+              
+              {/* Legacy portal pages */}
+              <Route path="/portal/learner-portal" element={<LearnerPortal />} />
+              <Route path="/portal/staff-portal" element={<StaffPortal />} />
+              <Route path="/portal/learning" element={<LearningPortal />} />
               
               {/* 404 route */}
               <Route path="*" element={<NotFound />} />
