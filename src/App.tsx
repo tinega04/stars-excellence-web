@@ -1,4 +1,3 @@
-
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -21,17 +20,19 @@ const Portals = lazy(() => import("./pages/Portals"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Portal imports - Updated routing
-const LearnerDashboard = lazy(() => import("./pages/portal/learner/Dashboard"));
+// Portal imports - Updated to new structure
+const LearnerDashboard = lazy(() => import("./apps/portals/learner/Dashboard"));
 const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
 const LearnerFees = lazy(() => import("./pages/portal/learner/FeeStatements"));
 const TeacherDashboard = lazy(() => import("./pages/portal/teacher/Dashboard"));
 const TeacherMaterials = lazy(() => import("./pages/portal/teacher/LearningMaterials"));
 const TeacherClasses = lazy(() => import("./pages/portal/teacher/ClassManagement"));
-const StaffDashboard = lazy(() => import("./pages/portal/staff/Dashboard"));
-const StaffResults = lazy(() => import("./pages/portal/staff/StudentResults"));
+const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard"));
+const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
+const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
+const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
 
-// New portal pages
+// Legacy portal imports
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
 const StaffPortal = lazy(() => import("./pages/portal/StaffPortal"));
 const LearningPortal = lazy(() => import("./pages/portal/LearningPortal"));
@@ -77,18 +78,22 @@ const App = () => (
               {/* Portal dashboard routes - Main entry points */}
               <Route path="/portal/learner" element={<LearnerDashboard />} />
               <Route path="/portal/teacher" element={<TeacherDashboard />} />
-              <Route path="/portal/staff" element={<StaffDashboard />} />
+              <Route path="/portal/educator" element={<EducatorDashboard />} />
+              <Route path="/portal/admin" element={<AdminDashboard />} />
+              <Route path="/portal/guardian" element={<GuardianDashboard />} />
               
               {/* Additional portal routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
               <Route path="/portal/learner/fees" element={<LearnerFees />} />
               <Route path="/portal/teacher/materials" element={<TeacherMaterials />} />
               <Route path="/portal/teacher/classes" element={<TeacherClasses />} />
-              <Route path="/portal/staff/results" element={<StaffResults />} />
+              <Route path="/portal/educator/results" element={<EducatorResults />} />
               
-              {/* Legacy portal pages */}
+              {/* Legacy portal pages - for backward compatibility */}
               <Route path="/portal/learner-portal" element={<LearnerPortal />} />
               <Route path="/portal/staff-portal" element={<StaffPortal />} />
+              <Route path="/portal/staff" element={<EducatorDashboard />} />
+              <Route path="/portal/staff/results" element={<EducatorResults />} />
               <Route path="/portal/learning" element={<LearningPortal />} />
               
               {/* 404 route */}

@@ -8,7 +8,10 @@ import {
   Users, 
   ClipboardList,
   LogOut,
-  Menu
+  Menu,
+  Settings,
+  MessageSquare,
+  Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -21,7 +24,7 @@ interface NavigationItem {
 
 interface PortalLayoutProps {
   children: React.ReactNode;
-  portalType: 'learner' | 'teacher' | 'staff';
+  portalType: 'learner' | 'teacher' | 'educator' | 'admin' | 'guardian';
   navigation: NavigationItem[];
 }
 
@@ -37,7 +40,9 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
     switch (portalType) {
       case 'learner': return 'Learner Portal';
       case 'teacher': return 'Teacher Portal';
-      case 'staff': return 'Staff Portal';
+      case 'educator': return 'Educator Portal';
+      case 'admin': return 'Admin Portal';
+      case 'guardian': return 'Guardian Portal';
       default: return 'Portal';
     }
   };

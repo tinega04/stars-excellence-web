@@ -1,5 +1,5 @@
 
-import { Users, GraduationCap, UserCheck, ArrowRight } from "lucide-react";
+import { Users, GraduationCap, UserCheck, ArrowRight, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layouts/Navigation";
@@ -17,22 +17,31 @@ const Portals = () => {
       features: ["Learning Materials", "Assignments & Projects", "Fee Statements", "Progress Tracking", "Announcements"]
     },
     {
-      title: "Teacher Portal", 
-      description: "Manage your classes, upload learning materials, track student progress, and collaborate with colleagues and administration.",
+      title: "Educator Portal", 
+      description: "Manage your classes, upload learning materials, track student progress, and access administrative tools for educational excellence.",
       icon: Users,
-      link: "/portal/teacher",
+      link: "/portal/educator",
       color: "bg-green-600",
       hoverColor: "hover:bg-green-700",
-      features: ["Class Management", "Learning Materials", "Student Assessment", "Collaboration Tools", "Reports"]
+      features: ["Student Management", "Academic Records", "Document Center", "System Administration", "Reports & Analytics"]
     },
     {
-      title: "Staff Portal",
-      description: "Access administrative tools, manage student records, view academic results, and oversee various school operations.",
+      title: "Guardian Portal",
+      description: "Monitor your children's academic progress, communicate with teachers, and stay updated on school activities and events.",
       icon: UserCheck,
-      link: "/portal/staff", 
+      link: "/portal/guardian", 
       color: "bg-purple-600",
       hoverColor: "hover:bg-purple-700",
-      features: ["Student Records", "Results Management", "Administrative Tools", "Financial Reports", "Analytics"]
+      features: ["Children's Progress", "Fee Management", "Teacher Communication", "School Events", "Academic Reports"]
+    },
+    {
+      title: "Admin Portal",
+      description: "Comprehensive system administration, user management, and oversight of all school operations and portal activities.",
+      icon: Shield,
+      link: "/portal/admin", 
+      color: "bg-red-600",
+      hoverColor: "hover:bg-red-700",
+      features: ["User Management", "System Settings", "Security Controls", "Analytics Dashboard", "Database Management"]
     }
   ];
 
@@ -40,8 +49,8 @@ const Portals = () => {
     <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>Portals | Stevens Integrated Schools</title>
-        <meta name="description" content="Access your personalized portal at Stevens Integrated Schools. Choose from Learner, Teacher, or Staff portals to manage your educational experience." />
-        <meta name="keywords" content="Stevens Integrated Schools portals, learner portal, teacher portal, staff portal, student management system" />
+        <meta name="description" content="Access your personalized portal at Stevens Integrated Schools. Choose from Learner, Educator, Guardian, or Admin portals to manage your educational experience." />
+        <meta name="keywords" content="Stevens Integrated Schools portals, learner portal, educator portal, guardian portal, admin portal, student management system" />
       </Helmet>
 
       <Navigation />
@@ -63,7 +72,7 @@ const Portals = () => {
         {/* Portals Grid */}
         <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
               {portals.map((portal, index) => {
                 const IconComponent = portal.icon;
                 return (

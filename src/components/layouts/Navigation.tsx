@@ -100,18 +100,25 @@ const Navigation = () => {
                       Learner Portal
                     </Link>
                     <Link
-                      to="/portal/staff"
+                      to="/portal/educator"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
                       onClick={() => setIsPortalsDropdownOpen(false)}
                     >
-                      Staff Portal
+                      Educator Portal
                     </Link>
                     <Link
-                      to="/portal/learning"
+                      to="/portal/guardian"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
                       onClick={() => setIsPortalsDropdownOpen(false)}
                     >
-                      Learning Portal
+                      Guardian Portal
+                    </Link>
+                    <Link
+                      to="/portal/admin"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition duration-300"
+                      onClick={() => setIsPortalsDropdownOpen(false)}
+                    >
+                      Admin Portal
                     </Link>
                   </div>
                 </div>
@@ -154,8 +161,9 @@ const Navigation = () => {
               <div className="border-t pt-2 mt-2">
                 <p className="text-xs text-gray-500 mb-2 font-medium">Portals</p>
                 <MobileNavLink href="/portal/learner" active={isActive('/portal/learner')}>Learner Portal</MobileNavLink>
-                <MobileNavLink href="/portal/staff" active={isActive('/portal/staff')}>Staff Portal</MobileNavLink>
-                <MobileNavLink href="/portal/learning" active={isActive('/portal/learning')}>Learning Portal</MobileNavLink>
+                <MobileNavLink href="/portal/educator" active={isActive('/portal/educator')}>Educator Portal</MobileNavLink>
+                <MobileNavLink href="/portal/guardian" active={isActive('/portal/guardian')}>Guardian Portal</MobileNavLink>
+                <MobileNavLink href="/portal/admin" active={isActive('/portal/admin')}>Admin Portal</MobileNavLink>
               </div>
               <div className="border-t pt-2 mt-2 flex flex-col space-y-2">
                 <Button asChild variant="outline" size="sm">
