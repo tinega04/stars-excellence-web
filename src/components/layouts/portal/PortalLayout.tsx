@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -23,7 +24,7 @@ interface NavigationItem {
 
 interface PortalLayoutProps {
   children: React.ReactNode;
-  portalType: 'learner' | 'teacher' | 'educator' | 'admin' | 'guardian' | 'director';
+  portalType: 'learner' | 'educator' | 'admin' | 'guardian';
   navigation: NavigationItem[];
 }
 
@@ -38,11 +39,9 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
   const getPortalTitle = () => {
     switch (portalType) {
       case 'learner': return 'Learner Portal';
-      case 'teacher': return 'Teacher Portal';
       case 'educator': return 'Educator Portal';
       case 'admin': return 'Admin Portal';
       case 'guardian': return 'Guardian Portal';
-      case 'director': return 'Director Portal';
       default: return 'Portal';
     }
   };

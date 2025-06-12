@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
@@ -32,7 +32,6 @@ const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard")
 const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
 const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
 const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
-const DirectorDashboard = lazy(() => import("./apps/portals/director/Dashboard"));
 
 // Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
@@ -79,27 +78,30 @@ const App = () => (
               <Route path="/portals" element={<Portals />} />
               <Route path="/login" element={<Login />} />
               
-              {/* New Portal Structure - Primary routes */}
+              {/* 4 Main Portal Routes */}
               <Route path="/portal/learner" element={<LearnerDashboard />} />
-              <Route path="/portal/teacher" element={<TeacherDashboard />} />
               <Route path="/portal/educator" element={<EducatorDashboard />} />
               <Route path="/portal/admin" element={<AdminDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
-              <Route path="/portal/director" element={<DirectorDashboard />} />
               
-              {/* Additional portal routes */}
+              {/* Additional portal sub-routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
               <Route path="/portal/learner/fees" element={<LearnerFees />} />
               <Route path="/portal/teacher/materials" element={<TeacherMaterials />} />
               <Route path="/portal/teacher/classes" element={<TeacherClasses />} />
               <Route path="/portal/educator/results" element={<EducatorResults />} />
               
+              {/* Redirects from old staff routes to educator routes */}
+              <Route path="/portal/staff" element={<Navigate to="/portal/educator" replace />} />
+              <Route path="/portal/staff/*" element={<Navigate to="/portal/educator" replace />} />
+              <Route path="/portal/director" element={<Navigate to="/portal/admin" replace />} />
+              <Route path="/portal/director/*" element={<Navigate to="/portal/admin" replace />} />
+              
               {/* Legacy portal routes - for backward compatibility */}
               <Route path="/portal/learner-portal" element={<LearnerPortal />} />
               <Route path="/portal/staff-portal" element={<StaffPortal />} />
-              <Route path="/portal/staff" element={<LegacyStaffDashboard />} />
-              <Route path="/portal/staff/results" element={<LegacyStaffResults />} />
               <Route path="/portal/learning" element={<LearningPortal />} />
+              <Route path="/portal/teacher" element={<TeacherDashboard />} />
               
               {/* 404 route */}
               <Route path="*" element={<NotFound />} />
