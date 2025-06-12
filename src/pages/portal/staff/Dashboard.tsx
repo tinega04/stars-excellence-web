@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
 import { LayoutDashboard, ClipboardList, Users, FileText, Settings, Database, AlertTriangle, Download } from 'lucide-react';
@@ -7,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 const navigation = [
-  { name: 'Dashboard', href: '/portal/staff', icon: LayoutDashboard },
-  { name: 'Student Results', href: '/portal/staff/results', icon: ClipboardList },
+  { name: 'Dashboard', href: '/portal/educator', icon: LayoutDashboard },
+  { name: 'Student Results', href: '/portal/educator/results', icon: ClipboardList },
 ];
 
 const StaffDashboard = () => {
@@ -77,10 +76,10 @@ const StaffDashboard = () => {
   };
 
   return (
-    <PortalLayout portalType="staff" navigation={navigation}>
+    <PortalLayout portalType="educator" navigation={navigation}>
       <div className="space-y-6">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Staff Dashboard</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Educator Dashboard</h2>
           <p className="text-muted-foreground">
             Administrative control center for Stars Excellence Schools
           </p>

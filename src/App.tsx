@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -31,10 +32,13 @@ const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard")
 const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
 const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
 const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
+const DirectorDashboard = lazy(() => import("./apps/portals/director/Dashboard"));
 
-// Legacy portal imports
+// Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
 const StaffPortal = lazy(() => import("./pages/portal/StaffPortal"));
+const LegacyStaffDashboard = lazy(() => import("./pages/portal/staff/Dashboard"));
+const LegacyStaffResults = lazy(() => import("./pages/portal/staff/StudentResults"));
 const LearningPortal = lazy(() => import("./pages/portal/LearningPortal"));
 
 const queryClient = new QueryClient({
@@ -75,12 +79,13 @@ const App = () => (
               <Route path="/portals" element={<Portals />} />
               <Route path="/login" element={<Login />} />
               
-              {/* Portal dashboard routes - Main entry points */}
+              {/* New Portal Structure - Primary routes */}
               <Route path="/portal/learner" element={<LearnerDashboard />} />
               <Route path="/portal/teacher" element={<TeacherDashboard />} />
               <Route path="/portal/educator" element={<EducatorDashboard />} />
               <Route path="/portal/admin" element={<AdminDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
+              <Route path="/portal/director" element={<DirectorDashboard />} />
               
               {/* Additional portal routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
@@ -89,11 +94,11 @@ const App = () => (
               <Route path="/portal/teacher/classes" element={<TeacherClasses />} />
               <Route path="/portal/educator/results" element={<EducatorResults />} />
               
-              {/* Legacy portal pages - for backward compatibility */}
+              {/* Legacy portal routes - for backward compatibility */}
               <Route path="/portal/learner-portal" element={<LearnerPortal />} />
               <Route path="/portal/staff-portal" element={<StaffPortal />} />
-              <Route path="/portal/staff" element={<EducatorDashboard />} />
-              <Route path="/portal/staff/results" element={<EducatorResults />} />
+              <Route path="/portal/staff" element={<LegacyStaffDashboard />} />
+              <Route path="/portal/staff/results" element={<LegacyStaffResults />} />
               <Route path="/portal/learning" element={<LearningPortal />} />
               
               {/* 404 route */}

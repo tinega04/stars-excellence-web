@@ -1,5 +1,5 @@
 
-import { Users, GraduationCap, UserCheck, ArrowRight, Shield } from "lucide-react";
+import { Users, GraduationCap, UserCheck, ArrowRight, Shield, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layouts/Navigation";
@@ -42,6 +42,15 @@ const Portals = () => {
       color: "bg-red-600",
       hoverColor: "hover:bg-red-700",
       features: ["User Management", "System Settings", "Security Controls", "Analytics Dashboard", "Database Management"]
+    },
+    {
+      title: "Director Portal",
+      description: "Executive oversight dashboard with school-wide analytics, performance metrics, and strategic management tools.",
+      icon: Crown,
+      link: "/portal/director", 
+      color: "bg-amber-600",
+      hoverColor: "hover:bg-amber-700",
+      features: ["Executive Dashboard", "School Analytics", "Staff Performance", "Financial Overview", "Strategic Planning"]
     }
   ];
 
@@ -49,8 +58,8 @@ const Portals = () => {
     <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>Portals | Stevens Integrated Schools</title>
-        <meta name="description" content="Access your personalized portal at Stevens Integrated Schools. Choose from Learner, Educator, Guardian, or Admin portals to manage your educational experience." />
-        <meta name="keywords" content="Stevens Integrated Schools portals, learner portal, educator portal, guardian portal, admin portal, student management system" />
+        <meta name="description" content="Access your personalized portal at Stevens Integrated Schools. Choose from Learner, Educator, Guardian, Admin, or Director portals to manage your educational experience." />
+        <meta name="keywords" content="Stevens Integrated Schools portals, learner portal, educator portal, guardian portal, admin portal, director portal, student management system" />
       </Helmet>
 
       <Navigation />
@@ -72,7 +81,7 @@ const Portals = () => {
         {/* Portals Grid */}
         <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
               {portals.map((portal, index) => {
                 const IconComponent = portal.icon;
                 return (
