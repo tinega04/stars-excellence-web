@@ -4,14 +4,14 @@ import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
 import { LayoutDashboard, BookOpen, Users } from 'lucide-react';
 
 const navigation = [
-  { name: 'Dashboard', href: '/portal/teacher', icon: LayoutDashboard },
-  { name: 'Learning Materials', href: '/portal/teacher/materials', icon: BookOpen },
-  { name: 'Class Management', href: '/portal/teacher/classes', icon: Users },
+  { name: 'Dashboard', href: '/portal/educator', icon: LayoutDashboard },
+  { name: 'Learning Materials', href: '/portal/educator/materials', icon: BookOpen },
+  { name: 'Class Management', href: '/portal/educator/classes', icon: Users },
 ];
 
 const TeacherLearningMaterials = () => {
   return (
-    <PortalLayout portalType="teacher" navigation={navigation}>
+    <PortalLayout portalType="educator" navigation={navigation}>
       <div className="space-y-6">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Learning Materials</h2>

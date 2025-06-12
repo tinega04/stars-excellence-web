@@ -21,17 +21,18 @@ const Portals = lazy(() => import("./pages/Portals"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Portal imports - Updated to new structure
+// Main Portal imports
 const LearnerDashboard = lazy(() => import("./apps/portals/learner/Dashboard"));
-const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
-const LearnerFees = lazy(() => import("./pages/portal/learner/FeeStatements"));
-const TeacherDashboard = lazy(() => import("./pages/portal/teacher/Dashboard"));
-const TeacherMaterials = lazy(() => import("./pages/portal/teacher/LearningMaterials"));
-const TeacherClasses = lazy(() => import("./pages/portal/teacher/ClassManagement"));
 const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard"));
-const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
 const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
 const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
+
+// Portal sub-routes
+const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
+const LearnerFees = lazy(() => import("./pages/portal/learner/FeeStatements"));
+const EducatorMaterials = lazy(() => import("./pages/portal/teacher/LearningMaterials"));
+const EducatorClasses = lazy(() => import("./pages/portal/teacher/ClassManagement"));
+const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
 
 // Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
@@ -39,6 +40,7 @@ const StaffPortal = lazy(() => import("./pages/portal/StaffPortal"));
 const LegacyStaffDashboard = lazy(() => import("./pages/portal/staff/Dashboard"));
 const LegacyStaffResults = lazy(() => import("./pages/portal/staff/StudentResults"));
 const LearningPortal = lazy(() => import("./pages/portal/LearningPortal"));
+const TeacherDashboard = lazy(() => import("./pages/portal/teacher/Dashboard"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -87,21 +89,20 @@ const App = () => (
               {/* Additional portal sub-routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
               <Route path="/portal/learner/fees" element={<LearnerFees />} />
-              <Route path="/portal/teacher/materials" element={<TeacherMaterials />} />
-              <Route path="/portal/teacher/classes" element={<TeacherClasses />} />
+              <Route path="/portal/educator/materials" element={<EducatorMaterials />} />
+              <Route path="/portal/educator/classes" element={<EducatorClasses />} />
               <Route path="/portal/educator/results" element={<EducatorResults />} />
               
-              {/* Redirects from old staff routes to educator routes */}
+              {/* Redirects from old routes to educator routes */}
               <Route path="/portal/staff" element={<Navigate to="/portal/educator" replace />} />
               <Route path="/portal/staff/*" element={<Navigate to="/portal/educator" replace />} />
-              <Route path="/portal/director" element={<Navigate to="/portal/admin" replace />} />
-              <Route path="/portal/director/*" element={<Navigate to="/portal/admin" replace />} />
+              <Route path="/portal/teacher" element={<Navigate to="/portal/educator" replace />} />
+              <Route path="/portal/teacher/*" element={<Navigate to="/portal/educator" replace />} />
               
               {/* Legacy portal routes - for backward compatibility */}
               <Route path="/portal/learner-portal" element={<LearnerPortal />} />
               <Route path="/portal/staff-portal" element={<StaffPortal />} />
               <Route path="/portal/learning" element={<LearningPortal />} />
-              <Route path="/portal/teacher" element={<TeacherDashboard />} />
               
               {/* 404 route */}
               <Route path="*" element={<NotFound />} />

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
-import { LayoutDashboard, Users, Settings, Database, BarChart, Shield, Crown, GraduationCap, DollarSign, Server } from 'lucide-react';
+import { LayoutDashboard, Users, Settings, Database, BarChart, Shield, Crown, GraduationCap, DollarSign, Server, ClipboardList } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ const navigation = [
 
 // Mock user role - in real app this would come from auth context
 const currentUser = {
-  role: 'director', // Can be: 'director', 'principal', 'director_of_studies', 'it_admin', 'bursar'
+  role: 'director' as 'director' | 'principal' | 'dos' | 'itadmin' | 'bursar',
   name: 'John Doe'
 };
 
@@ -23,8 +23,8 @@ const AdminDashboard = () => {
     switch (role) {
       case 'director': return 'Director';
       case 'principal': return 'Principal';
-      case 'director_of_studies': return 'Director of Studies';
-      case 'it_admin': return 'IT Administrator';
+      case 'dos': return 'Director of Studies';
+      case 'itadmin': return 'IT Administrator';
       case 'bursar': return 'Bursar';
       default: return 'Admin';
     }
@@ -34,8 +34,8 @@ const AdminDashboard = () => {
     switch (role) {
       case 'director': return Crown;
       case 'principal': return Shield;
-      case 'director_of_studies': return GraduationCap;
-      case 'it_admin': return Server;
+      case 'dos': return GraduationCap;
+      case 'itadmin': return Server;
       case 'bursar': return DollarSign;
       default: return Shield;
     }
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
-            <GraduationCap className="h-4 w-4 text-muted-foreground" />
+            <ClipboardList className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">15</div>
@@ -164,10 +164,10 @@ const AdminDashboard = () => {
     switch (currentUser.role) {
       case 'director':
         return <DirectorView />;
-      case 'director_of_studies':
+      case 'dos':
         return <DirectorOfStudiesView />;
       case 'principal':
-      case 'it_admin':
+      case 'itadmin':
       case 'bursar':
         return (
           <div className="flex items-center justify-center h-64 bg-muted rounded-lg">
