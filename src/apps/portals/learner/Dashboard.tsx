@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
-import { LayoutDashboard, BookOpen, Receipt, Calendar, Award, FileText, Bell } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Calendar, Award, FileText, Bell } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 const navigation = [
   { name: 'Dashboard', href: '/portal/learner', icon: LayoutDashboard },
   { name: 'Learning Materials', href: '/portal/learner/materials', icon: BookOpen },
-  { name: 'Fee Statements', href: '/portal/learner/fees', icon: Receipt },
 ];
 
 const LearnerDashboard = () => {
@@ -54,18 +53,7 @@ const LearnerDashboard = () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Fee Balance</CardTitle>
-              <Receipt className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-orange-600">KSh 13,000</div>
-              <p className="text-xs text-muted-foreground">Term 2 Balance</p>
-            </CardContent>
-          </Card>
-
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Attendance</CardTitle>
@@ -155,29 +143,6 @@ const LearnerDashboard = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Fee Summary Detail */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Fee Summary - Term 2 2024</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">Total Fees</p>
-                <p className="text-2xl font-bold">KSh 45,000</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">Amount Paid</p>
-                <p className="text-2xl font-bold text-green-600">KSh 32,000</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">Balance</p>
-                <p className="text-2xl font-bold text-orange-600">KSh 13,000</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </PortalLayout>
   );

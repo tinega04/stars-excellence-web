@@ -1,13 +1,11 @@
 
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
-import { LayoutDashboard, Users, Calendar, Receipt, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Users, Calendar, Receipt } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const navigation = [
   { name: 'Dashboard', href: '/portal/guardian', icon: LayoutDashboard },
-  { name: 'My Children', href: '/portal/guardian/children', icon: Users },
-  { name: 'Messages', href: '/portal/guardian/messages', icon: MessageSquare },
 ];
 
 const GuardianDashboard = () => {
@@ -22,7 +20,7 @@ const GuardianDashboard = () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Children Enrolled</CardTitle>
@@ -55,23 +53,12 @@ const GuardianDashboard = () => {
               <p className="text-xs text-muted-foreground">This month</p>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New Messages</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-purple-600">5</div>
-              <p className="text-xs text-muted-foreground">Unread</p>
-            </CardContent>
-          </Card>
         </div>
 
         <div className="flex items-center justify-center h-64 bg-muted rounded-lg">
           <div className="text-center">
             <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-lg text-muted-foreground">Guardian portal features coming soon...</p>
+            <p className="text-lg text-muted-foreground">Additional guardian features coming soon...</p>
           </div>
         </div>
       </div>

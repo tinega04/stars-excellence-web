@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
-import { LayoutDashboard, ClipboardList, Users, FileText, Settings, Database, AlertTriangle, Download } from 'lucide-react';
+import { LayoutDashboard, ClipboardList, Users, FileText, AlertTriangle, Database, Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 const navigation = [
@@ -12,15 +11,6 @@ const navigation = [
 ];
 
 const EducatorDashboard = () => {
-  const quickLinks = [
-    { title: 'View Student List', icon: Users, description: 'Access complete student database' },
-    { title: 'Staff Attendance', icon: ClipboardList, description: 'Track staff attendance records' },
-    { title: 'Upload Timetables', icon: FileText, description: 'Manage class schedules' },
-    { title: 'Fee Management', icon: Database, description: 'Handle fee records and payments' },
-    { title: 'System Settings', icon: Settings, description: 'Configure system preferences' },
-    { title: 'Reports Generator', icon: Download, description: 'Generate academic reports' },
-  ];
-
   const documents = [
     { name: 'Staff Handbook 2024.pdf', type: 'PDF', size: '2.4 MB', date: '15 Jun 2024' },
     { name: 'Student Records Template.xlsx', type: 'Excel', size: '156 KB', date: '12 Jun 2024' },
@@ -82,7 +72,7 @@ const EducatorDashboard = () => {
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Educator Dashboard</h2>
           <p className="text-muted-foreground">
-            Administrative control center for Stars Excellence Schools
+            Educational resources and system management for Stars Excellence Schools
           </p>
         </div>
 
@@ -132,32 +122,6 @@ const EducatorDashboard = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Admin Quick Links */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Admin Quick Links</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {quickLinks.map((link, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="h-auto p-4 flex flex-col items-start space-y-2 hover:bg-accent"
-                >
-                  <div className="flex items-center gap-2">
-                    <link.icon className="h-5 w-5" />
-                    <span className="font-medium">{link.title}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground text-left">
-                    {link.description}
-                  </p>
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
 
         <div className="grid gap-6 md:grid-cols-2">
           {/* Document Center */}

@@ -24,7 +24,7 @@ interface NavigationItem {
 
 interface PortalLayoutProps {
   children: React.ReactNode;
-  portalType: 'learner' | 'educator' | 'admin' | 'guardian';
+  portalType: 'learner' | 'educator' | 'guardian' | 'admin';
   navigation: NavigationItem[];
 }
 
