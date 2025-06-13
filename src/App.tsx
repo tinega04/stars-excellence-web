@@ -37,10 +37,7 @@ const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResult
 // Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
 const StaffPortal = lazy(() => import("./pages/portal/StaffPortal"));
-const LegacyStaffDashboard = lazy(() => import("./pages/portal/staff/Dashboard"));
-const LegacyStaffResults = lazy(() => import("./pages/portal/staff/StudentResults"));
 const LearningPortal = lazy(() => import("./pages/portal/LearningPortal"));
-const TeacherDashboard = lazy(() => import("./pages/portal/teacher/Dashboard"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
