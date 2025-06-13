@@ -27,12 +27,19 @@ const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard")
 const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
 const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
 
-// Portal sub-routes
+// Educator portal sub-routes
+const EducatorSubjects = lazy(() => import("./pages/portal/educator/Subjects"));
+const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
+const EducatorMaterials = lazy(() => import("./pages/portal/teacher/LearningMaterials"));
+const EducatorResources = lazy(() => import("./pages/portal/educator/Resources"));
+const EducatorTimetable = lazy(() => import("./pages/portal/educator/Timetable"));
+const EducatorMessages = lazy(() => import("./pages/portal/educator/Messages"));
+const EducatorDocuments = lazy(() => import("./pages/portal/educator/Documents"));
+
+// Legacy portal sub-routes
 const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
 const LearnerFees = lazy(() => import("./pages/portal/learner/FeeStatements"));
-const EducatorMaterials = lazy(() => import("./pages/portal/teacher/LearningMaterials"));
 const EducatorClasses = lazy(() => import("./pages/portal/teacher/ClassManagement"));
-const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
 
 // Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
