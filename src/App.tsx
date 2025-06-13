@@ -83,12 +83,18 @@ const App = () => (
               <Route path="/portal/admin" element={<AdminDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
               
-              {/* Additional portal sub-routes */}
+              {/* Educator portal sub-routes */}
+              <Route path="/portal/educator/subjects" element={<EducatorSubjects />} />
+              <Route path="/portal/educator/results" element={<EducatorResults />} />
+              <Route path="/portal/educator/materials" element={<EducatorMaterials />} />
+              <Route path="/portal/educator/resources" element={<EducatorResources />} />
+              <Route path="/portal/educator/timetable" element={<EducatorTimetable />} />
+              <Route path="/portal/educator/messages" element={<EducatorMessages />} />
+              <Route path="/portal/educator/documents" element={<EducatorDocuments />} />
+              
+              {/* Legacy learner portal sub-routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
               <Route path="/portal/learner/fees" element={<LearnerFees />} />
-              <Route path="/portal/educator/materials" element={<EducatorMaterials />} />
-              <Route path="/portal/educator/classes" element={<EducatorClasses />} />
-              <Route path="/portal/educator/results" element={<EducatorResults />} />
               
               {/* Redirects from old routes to educator routes */}
               <Route path="/portal/staff" element={<Navigate to="/portal/educator" replace />} />
