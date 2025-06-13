@@ -47,6 +47,14 @@ const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
 const StaffPortal = lazy(() => import("./pages/portal/StaffPortal"));
 const LearningPortal = lazy(() => import("./pages/portal/LearningPortal"));
 
+// Role-specific admin dashboards
+const DirectorDashboard = lazy(() => import("./pages/portal/admin/director/Dashboard"));
+const PrincipalDashboard = lazy(() => import("./pages/portal/admin/principal/Dashboard"));
+const StudiesDashboard = lazy(() => import("./pages/portal/admin/studies/Dashboard"));
+const ITDashboard = lazy(() => import("./pages/portal/admin/it/Dashboard"));
+const BursarDashboard = lazy(() => import("./pages/portal/admin/bursar/Dashboard"));
+const AccessDenied = lazy(() => import("./pages/portal/admin/common/AccessDenied"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -90,6 +98,14 @@ const App = () => (
               <Route path="/portal/educator" element={<EducatorDashboard />} />
               <Route path="/portal/admin" element={<AdminDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
+              
+              {/* Role-specific Admin Portal Routes */}
+              <Route path="/portal/admin/director" element={<DirectorDashboard />} />
+              <Route path="/portal/admin/principal" element={<PrincipalDashboard />} />
+              <Route path="/portal/admin/studies" element={<StudiesDashboard />} />
+              <Route path="/portal/admin/it" element={<ITDashboard />} />
+              <Route path="/portal/admin/bursar" element={<BursarDashboard />} />
+              <Route path="/portal/admin/access-denied" element={<AccessDenied />} />
               
               {/* Learner portal sub-routes */}
               <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
