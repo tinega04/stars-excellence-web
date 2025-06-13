@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
-import { LayoutDashboard, BookOpen, Calendar, Award, FileText, Bell } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Calendar, ClipboardList, Award, Bell } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,10 @@ import { Badge } from '@/components/ui/badge';
 const navigation = [
   { name: 'Dashboard', href: '/portal/learner', icon: LayoutDashboard },
   { name: 'Learning Materials', href: '/portal/learner/materials', icon: BookOpen },
+  { name: 'Attendance', href: '/portal/learner/attendance', icon: Calendar },
+  { name: 'Assignments', href: '/portal/learner/assignments', icon: ClipboardList },
+  { name: 'Exam Results', href: '/portal/learner/results', icon: Award },
+  { name: 'Announcements', href: '/portal/learner/announcements', icon: Bell },
 ];
 
 const LearnerDashboard = () => {
@@ -79,7 +83,7 @@ const LearnerDashboard = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Assignments Due</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+              <ClipboardList className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">3</div>

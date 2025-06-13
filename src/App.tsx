@@ -1,4 +1,3 @@
-
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -27,6 +26,13 @@ const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard")
 const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
 const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
 
+// Learner portal sub-routes
+const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
+const LearnerAttendance = lazy(() => import("./pages/portal/learner/LearnerAttendance"));
+const LearnerAssignments = lazy(() => import("./pages/portal/learner/LearnerAssignments"));
+const LearnerResults = lazy(() => import("./pages/portal/learner/LearnerResults"));
+const LearnerAnnouncements = lazy(() => import("./pages/portal/learner/LearnerAnnouncements"));
+
 // Educator portal sub-routes
 const EducatorSubjects = lazy(() => import("./pages/portal/educator/Subjects"));
 const EducatorResults = lazy(() => import("./apps/portals/educator/StudentResults"));
@@ -35,11 +41,6 @@ const EducatorResources = lazy(() => import("./pages/portal/educator/Resources")
 const EducatorTimetable = lazy(() => import("./pages/portal/educator/Timetable"));
 const EducatorMessages = lazy(() => import("./pages/portal/educator/Messages"));
 const EducatorDocuments = lazy(() => import("./pages/portal/educator/Documents"));
-
-// Legacy portal sub-routes
-const LearnerMaterials = lazy(() => import("./pages/portal/learner/LearningMaterials"));
-const LearnerFees = lazy(() => import("./pages/portal/learner/FeeStatements"));
-const EducatorClasses = lazy(() => import("./pages/portal/teacher/ClassManagement"));
 
 // Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
@@ -90,6 +91,13 @@ const App = () => (
               <Route path="/portal/admin" element={<AdminDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
               
+              {/* Learner portal sub-routes */}
+              <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
+              <Route path="/portal/learner/attendance" element={<LearnerAttendance />} />
+              <Route path="/portal/learner/assignments" element={<LearnerAssignments />} />
+              <Route path="/portal/learner/results" element={<LearnerResults />} />
+              <Route path="/portal/learner/announcements" element={<LearnerAnnouncements />} />
+              
               {/* Educator portal sub-routes */}
               <Route path="/portal/educator/subjects" element={<EducatorSubjects />} />
               <Route path="/portal/educator/results" element={<EducatorResults />} />
@@ -98,10 +106,6 @@ const App = () => (
               <Route path="/portal/educator/timetable" element={<EducatorTimetable />} />
               <Route path="/portal/educator/messages" element={<EducatorMessages />} />
               <Route path="/portal/educator/documents" element={<EducatorDocuments />} />
-              
-              {/* Legacy learner portal sub-routes */}
-              <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
-              <Route path="/portal/learner/fees" element={<LearnerFees />} />
               
               {/* Redirects from old routes to educator routes */}
               <Route path="/portal/staff" element={<Navigate to="/portal/educator" replace />} />
