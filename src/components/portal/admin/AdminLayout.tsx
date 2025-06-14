@@ -1,14 +1,21 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LogOut, Menu } from 'lucide-react';
+import { LogOut, Menu, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+
+interface NavigationSubItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
 
 interface NavigationItem {
   name: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
+  subItems?: NavigationSubItem[];
 }
 
 interface AdminLayoutProps {
@@ -26,6 +33,24 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 }) => {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
+
+  const toggleExpanded = (itemName: string) => {
+    setExpandedItems(prev => 
+      prev.includes(itemName) 
+        ? prev.filter(name => name !== itemName)
+        : [...prev, itemName]
+    );
+  };
+
+  const isItemExpanded = (itemName: string) => expandedItems.includes(itemName);
+  
+  const isActiveItem = (item: NavigationItem) => {
+    if (item.subItems) {
+      return item.subItems.some(subItem => location.pathname === subItem.href);
+    }
+    return location.pathname === item.href;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,21 +89,72 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
             {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
+              const isActive = isActiveItem(item);
+              const hasSubItems = item.subItems && item.subItems.length > 0;
+              const isExpanded = isItemExpanded(item.name);
+
               return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                <div key={item.name}>
+                  {hasSubItems ? (
+                    <div>
+                      <button
+                        onClick={() => toggleExpanded(item.name)}
+                        className={cn(
+                          "flex items-center justify-between w-full gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                          isActive
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        )}
+                      >
+                        <div className="flex items-center gap-3">
+                          <item.icon className="h-5 w-5" />
+                          {item.name}
+                        </div>
+                        {isExpanded ? (
+                          <ChevronDown className="h-4 w-4" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4" />
+                        )}
+                      </button>
+                      
+                      {isExpanded && (
+                        <div className="ml-6 mt-2 space-y-1">
+                          {item.subItems.map((subItem) => {
+                            const isSubActive = location.pathname === subItem.href;
+                            return (
+                              <Link
+                                key={subItem.name}
+                                to={subItem.href}
+                                className={cn(
+                                  "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                                  isSubActive
+                                    ? "bg-primary text-primary-foreground"
+                                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                )}
+                              >
+                                <subItem.icon className="h-4 w-4" />
+                                {subItem.name}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      )}
+                    >
+                      <item.icon className="h-5 w-5" />
+                      {item.name}
+                    </Link>
                   )}
-                >
-                  <item.icon className="h-5 w-5" />
-                  {item.name}
-                </Link>
+                </div>
               );
             })}
           </nav>

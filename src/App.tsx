@@ -56,6 +56,11 @@ const AdminITDashboard = lazy(() => import("./pages/portal/admin/it/Dashboard"))
 const AdminBursarDashboard = lazy(() => import("./pages/portal/admin/bursar/Dashboard"));
 const AdminAccessDenied = lazy(() => import("./pages/portal/admin/common/AccessDenied"));
 
+// IT Admin user management routes
+const CreateUser = lazy(() => import("./pages/portal/admin/it/CreateUser"));
+const UserDirectory = lazy(() => import("./pages/portal/admin/it/UserDirectory"));
+const ManageAccounts = lazy(() => import("./pages/portal/admin/it/ManageAccounts"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -107,6 +112,11 @@ const App = () => (
               <Route path="/portal/admin/it" element={<AdminITDashboard />} />
               <Route path="/portal/admin/bursar" element={<AdminBursarDashboard />} />
               <Route path="/portal/admin/access-denied" element={<AdminAccessDenied />} />
+              
+              {/* IT Admin User Management Routes */}
+              <Route path="/portal/admin/it/users/create" element={<CreateUser />} />
+              <Route path="/portal/admin/it/users/directory" element={<UserDirectory />} />
+              <Route path="/portal/admin/it/users/manage" element={<ManageAccounts />} />
               
               {/* Learner portal sub-routes */}
               <Route path="/portal/learner/dashboard" element={<LearnerDashboard />} />

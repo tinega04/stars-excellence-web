@@ -1,13 +1,22 @@
 
 import React from 'react';
 import { AdminLayout } from '@/components/portal/admin/AdminLayout';
-import { Server, Users, Settings, Activity, Shield, Database } from 'lucide-react';
+import { Server, Users, Settings, Activity, Shield, Database, UserPlus, UsersIcon, UserCog } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const ITDashboard = () => {
   const navigation = [
     { name: 'Dashboard', href: '/portal/admin/it', icon: Server },
-    { name: 'User Management', href: '/portal/admin/it/users', icon: Users },
+    { 
+      name: 'User Management', 
+      href: '/portal/admin/it/users', 
+      icon: Users,
+      subItems: [
+        { name: 'Create New User', href: '/portal/admin/it/users/create', icon: UserPlus },
+        { name: 'User Directory', href: '/portal/admin/it/users/directory', icon: UsersIcon },
+        { name: 'Manage Accounts', href: '/portal/admin/it/users/manage', icon: UserCog },
+      ]
+    },
     { name: 'System Settings', href: '/portal/admin/it/settings', icon: Settings },
     { name: 'System Logs', href: '/portal/admin/it/logs', icon: Activity },
     { name: 'Security', href: '/portal/admin/it/security', icon: Shield },
@@ -63,17 +72,54 @@ const ITDashboard = () => {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Backup Status</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">Complete</div>
-              <p className="text-xs text-muted-foreground">Last backup: 2 hours ago</p>
+              <div className="text-2xl font-bold text-purple-600">2,543</div>
+              <p className="text-xs text-muted-foreground">All registered accounts</p>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick User Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="p-4 border rounded-lg hover:bg-accent cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <UserPlus className="h-5 w-5 text-blue-600" />
+                    <div>
+                      <p className="font-medium">Create New User</p>
+                      <p className="text-sm text-muted-foreground">Add new Educator, Guardian, or Learner</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 border rounded-lg hover:bg-accent cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <UsersIcon className="h-5 w-5 text-green-600" />
+                    <div>
+                      <p className="font-medium">User Directory</p>
+                      <p className="text-sm text-muted-foreground">Browse and search all users</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 border rounded-lg hover:bg-accent cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <UserCog className="h-5 w-5 text-orange-600" />
+                    <div>
+                      <p className="font-medium">Manage Accounts</p>
+                      <p className="text-sm text-muted-foreground">Reset passwords, suspend accounts</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Recent User Activities</CardTitle>
@@ -82,77 +128,24 @@ const ITDashboard = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <p className="font-medium">New User Registration</p>
-                    <p className="text-sm text-muted-foreground">Sarah Johnson (Guardian)</p>
+                    <p className="font-medium">New Educator Registration</p>
+                    <p className="text-sm text-muted-foreground">Sarah Johnson (Mathematics)</p>
                   </div>
                   <div className="text-sm text-muted-foreground">2 hours ago</div>
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
                     <p className="font-medium">Password Reset Request</p>
-                    <p className="text-sm text-muted-foreground">Michael Smith (Educator)</p>
+                    <p className="text-sm text-muted-foreground">Michael Smith (Guardian)</p>
                   </div>
                   <div className="text-sm text-muted-foreground">5 hours ago</div>
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <p className="font-medium">Role Permission Update</p>
-                    <p className="text-sm text-muted-foreground">Emily Davis (Admin)</p>
+                    <p className="font-medium">Account Suspended</p>
+                    <p className="text-sm text-muted-foreground">Former Staff - John Doe</p>
                   </div>
                   <div className="text-sm text-muted-foreground">1 day ago</div>
-                </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <div>
-                    <p className="font-medium">System Access Granted</p>
-                    <p className="text-sm text-muted-foreground">New IT Support Staff</p>
-                  </div>
-                  <div className="text-sm text-muted-foreground">2 days ago</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>System Health & Logs</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="p-3 border rounded-lg">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">Database Backup Completed</p>
-                      <p className="text-sm text-muted-foreground">Automatic backup successful</p>
-                    </div>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Success</span>
-                  </div>
-                </div>
-                <div className="p-3 border rounded-lg">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">Failed Login Attempt</p>
-                      <p className="text-sm text-muted-foreground">Multiple attempts from IP: 192.168.1.100</p>
-                    </div>
-                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Warning</span>
-                  </div>
-                </div>
-                <div className="p-3 border rounded-lg">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">Security Update Applied</p>
-                      <p className="text-sm text-muted-foreground">Latest security patches installed</p>
-                    </div>
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Info</span>
-                  </div>
-                </div>
-                <div className="p-3 border rounded-lg">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">Performance Optimization</p>
-                      <p className="text-sm text-muted-foreground">Database indexing completed</p>
-                    </div>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Success</span>
-                  </div>
                 </div>
               </div>
             </CardContent>
