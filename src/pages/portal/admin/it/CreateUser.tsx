@@ -228,7 +228,11 @@ const CreateUser = () => {
                   <Checkbox 
                     id="previewEmails" 
                     checked={previewEmails}
-                    onCheckedChange={setPreviewEmails}
+                    onCheckedChange={(checked) => {
+                      if (checked !== "indeterminate") {
+                        setPreviewEmails(checked);
+                      }
+                    }}
                   />
                   <div className="grid gap-1.5 leading-none">
                     <label
