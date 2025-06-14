@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -23,7 +24,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // Main Portal imports
 const LearnerDashboard = lazy(() => import("./apps/portals/learner/Dashboard"));
 const EducatorDashboard = lazy(() => import("./apps/portals/educator/Dashboard"));
-const AdminDashboard = lazy(() => import("./apps/portals/admin/Dashboard"));
 const GuardianDashboard = lazy(() => import("./apps/portals/guardian/Dashboard"));
 
 // Learner portal sub-routes
@@ -47,13 +47,14 @@ const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
 const StaffPortal = lazy(() => import("./pages/portal/StaffPortal"));
 const LearningPortal = lazy(() => import("./pages/portal/LearningPortal"));
 
-// Role-specific admin dashboards
-const DirectorDashboard = lazy(() => import("./pages/portal/admin/director/Dashboard"));
-const PrincipalDashboard = lazy(() => import("./pages/portal/admin/principal/Dashboard"));
-const StudiesDashboard = lazy(() => import("./pages/portal/admin/studies/Dashboard"));
-const ITDashboard = lazy(() => import("./pages/portal/admin/it/Dashboard"));
-const BursarDashboard = lazy(() => import("./pages/portal/admin/bursar/Dashboard"));
-const AccessDenied = lazy(() => import("./pages/portal/admin/common/AccessDenied"));
+// Admin portal imports
+const AdminLogin = lazy(() => import("./pages/portal/admin/Login"));
+const AdminDirectorDashboard = lazy(() => import("./pages/portal/admin/director/Dashboard"));
+const AdminPrincipalDashboard = lazy(() => import("./pages/portal/admin/principal/Dashboard"));
+const AdminStudiesDashboard = lazy(() => import("./pages/portal/admin/studies/Dashboard"));
+const AdminITDashboard = lazy(() => import("./pages/portal/admin/it/Dashboard"));
+const AdminBursarDashboard = lazy(() => import("./pages/portal/admin/bursar/Dashboard"));
+const AdminAccessDenied = lazy(() => import("./pages/portal/admin/common/AccessDenied"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -74,14 +75,6 @@ const PageLoader = () => (
   </div>
 );
 
-// Admin portal imports
-const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
-const DirectorDashboard = lazy(() => import("./pages/admin/director/DirectorDashboard"));
-const DOSDashboard = lazy(() => import("./pages/admin/dos/DOSDashboard"));
-const BursarDashboard = lazy(() => import("./pages/admin/bursar/BursarDashboard"));
-const PrincipalDashboard = lazy(() => import("./pages/admin/principal/PrincipalDashboard"));
-const ITDashboard = lazy(() => import("./pages/admin/it/ITDashboard"));
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -101,18 +94,19 @@ const App = () => (
               <Route path="/portals" element={<Portals />} />
               <Route path="/login" element={<Login />} />
               
-              {/* 4 Main Portal Routes */}
+              {/* Main Portal Routes */}
               <Route path="/portal/learner" element={<LearnerDashboard />} />
               <Route path="/portal/educator" element={<EducatorDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
               
               {/* Admin Portal Routes */}
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/admin/director" element={<DirectorDashboard />} />
-              <Route path="/admin/dos" element={<DOSDashboard />} />
-              <Route path="/admin/bursar" element={<BursarDashboard />} />
-              <Route path="/admin/principal" element={<PrincipalDashboard />} />
-              <Route path="/admin/it" element={<ITDashboard />} />
+              <Route path="/portal/admin" element={<AdminLogin />} />
+              <Route path="/portal/admin/director" element={<AdminDirectorDashboard />} />
+              <Route path="/portal/admin/principal" element={<AdminPrincipalDashboard />} />
+              <Route path="/portal/admin/studies" element={<AdminStudiesDashboard />} />
+              <Route path="/portal/admin/it" element={<AdminITDashboard />} />
+              <Route path="/portal/admin/bursar" element={<AdminBursarDashboard />} />
+              <Route path="/portal/admin/access-denied" element={<AdminAccessDenied />} />
               
               {/* Learner portal sub-routes */}
               <Route path="/portal/learner/dashboard" element={<LearnerDashboard />} />
