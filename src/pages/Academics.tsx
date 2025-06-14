@@ -1,5 +1,3 @@
-
-import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layouts/Navigation";
@@ -39,10 +37,6 @@ const Academics = () => {
       </div>
       
       <main className="container py-8 md:py-12 flex-grow">
-        <div className="flex justify-center mb-6 md:mb-8">
-          <Link to="/" className="text-blue-600 hover:text-blue-800 transition-colors">← Back to Home</Link>
-        </div>
-
         <div className="max-w-6xl mx-auto">
           <div className="mb-8 md:mb-12">
             <h2 className="text-2xl md:text-3xl font-serif text-blue-800 mb-6">Our Academic Approach</h2>
