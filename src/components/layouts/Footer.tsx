@@ -26,8 +26,28 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <Phone size={20} className="mt-1 flex-shrink-0 text-blue-300" />
                 <div>
-                  <span>+254 123 456 789</span>
-                  <p className="text-sm text-blue-200">Mon-Fri: 8:00 AM - 5:00 PM</p>
+                  <h4 className="font-medium text-blue-100 mb-2">Branch Contacts</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="font-medium">Nairobi Branch:</p>
+                      <a 
+                        href="tel:+254712345678" 
+                        className="hover:text-blue-300 transition duration-300"
+                      >
+                        +254 712 345 678
+                      </a>
+                    </div>
+                    <div>
+                      <p className="font-medium">Kitengela Branch:</p>
+                      <a 
+                        href="tel:+254798765432" 
+                        className="hover:text-blue-300 transition duration-300"
+                      >
+                        +254 798 765 432
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-sm text-blue-200 mt-2">Mon-Fri: 8:00 AM - 5:00 PM</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

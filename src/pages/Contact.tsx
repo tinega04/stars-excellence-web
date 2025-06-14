@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
@@ -137,9 +136,28 @@ const Contact = () => {
               <div className="flex items-start gap-3">
                 <Phone className="text-blue-600 h-5 w-5 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="font-medium text-gray-900 mb-1">Phone</h3>
-                  <p className="text-gray-600">+254 123 456 789</p>
-                  <p className="text-sm text-gray-500">Mon-Fri: 8:00 AM - 5:00 PM</p>
+                  <h3 className="font-medium text-gray-900 mb-3">Branch Contacts</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="font-medium text-gray-800">Nairobi Branch:</p>
+                      <a 
+                        href="tel:+254712345678"
+                        className="text-blue-600 hover:text-blue-800 transition-colors"
+                      >
+                        +254 712 345 678
+                      </a>
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-800">Kitengela Branch:</p>
+                      <a 
+                        href="tel:+254798765432"
+                        className="text-blue-600 hover:text-blue-800 transition-colors"
+                      >
+                        +254 798 765 432
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-3">Mon-Fri: 8:00 AM - 5:00 PM</p>
                 </div>
               </div>
               
