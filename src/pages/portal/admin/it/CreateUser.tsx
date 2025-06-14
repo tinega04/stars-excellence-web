@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { AdminLayout } from '@/components/portal/admin/AdminLayout';
 import { Server, Users, Settings, Activity, Shield, Database, UserPlus, UsersIcon, UserCog, Calendar as CalendarIcon } from 'lucide-react';
@@ -47,6 +46,7 @@ const CreateUser = () => {
     guardianPhone: '',
     guardianEmail: '',
     guardianRelationship: '',
+    guardianRelationshipOther: '', // New field for "Other (Specify)"
   });
 
   const navigation = [
@@ -145,6 +145,7 @@ const CreateUser = () => {
       guardianPhone: '',
       guardianEmail: '',
       guardianRelationship: '',
+      guardianRelationshipOther: '', // Reset the new field
     });
     setUserType('');
   };
@@ -451,14 +452,27 @@ const CreateUser = () => {
                             <SelectValue placeholder="Select relationship" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="parent">Parent</SelectItem>
-                            <SelectItem value="guardian">Guardian</SelectItem>
-                            <SelectItem value="relative">Relative</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="father">Father</SelectItem>
+                            <SelectItem value="mother">Mother</SelectItem>
+                            <SelectItem value="sibling">Sibling</SelectItem>
+                            <SelectItem value="other">Other (Specify)</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
+
+                    {/* Conditional "Other (Specify)" input field */}
+                    {formData.guardianRelationship === 'other' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="guardianRelationshipOther">Please specify relationship</Label>
+                        <Input
+                          id="guardianRelationshipOther"
+                          placeholder="e.g., Uncle, Aunt, Grandparent"
+                          value={formData.guardianRelationshipOther}
+                          onChange={(e) => handleInputChange('guardianRelationshipOther', e.target.value)}
+                        />
+                      </div>
+                    )}
 
                     <div className="p-4 bg-blue-50 rounded-lg">
                       <p className="text-sm text-blue-800">
