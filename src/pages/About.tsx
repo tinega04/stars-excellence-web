@@ -144,7 +144,7 @@ const About = () => {
                 <Button asChild variant="secondary" size="lg">
                   <Link to="/admissions" className="px-8">Apply Now</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-900">
+                <Button asChild variant="secondary" size="lg" className="bg-white text-blue-900 hover:bg-blue-50">
                   <Link to="/contact" className="px-8">Contact Us</Link>
                 </Button>
               </div>
