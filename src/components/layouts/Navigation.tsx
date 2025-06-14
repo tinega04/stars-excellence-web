@@ -125,13 +125,10 @@ const Navigation = () => {
               )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center space-x-3 ml-4">
+            {/* Action Button */}
+            <div className="ml-4">
               <Button asChild variant="outline" size="sm">
                 <Link to="/admissions">Apply Now</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link to="/login">Login</Link>
               </Button>
             </div>
           </div>
@@ -165,12 +162,9 @@ const Navigation = () => {
                 <MobileNavLink href="/portal/guardian" active={isActive('/portal/guardian')}>Guardian Portal</MobileNavLink>
                 <MobileNavLink href="/portal/admin" active={isActive('/portal/admin')}>Admin Portal</MobileNavLink>
               </div>
-              <div className="border-t pt-2 mt-2 flex flex-col space-y-2">
+              <div className="border-t pt-2 mt-2">
                 <Button asChild variant="outline" size="sm">
                   <Link to="/admissions" onClick={closeMenu}>Apply Now</Link>
-                </Button>
-                <Button asChild size="sm">
-                  <Link to="/login" onClick={closeMenu}>Login</Link>
                 </Button>
               </div>
             </div>
