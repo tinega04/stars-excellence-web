@@ -1,23 +1,12 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const CallToActionSection = () => {
   const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
     visible: { opacity: 1, y: 0 }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
   };
 
   return (
@@ -39,45 +28,25 @@ const CallToActionSection = () => {
           </p>
           
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex justify-center"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            variants={staggerContainer}
+            variants={fadeInUp}
           >
-            <motion.div variants={fadeInUp}>
-              <motion.div
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
+            <motion.div
+              whileHover={{ y: -2 }}
+              whileTap={{ y: 0 }}
+            >
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-900 hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 active:scale-95"
+                asChild
               >
-                <Button 
-                  size="lg" 
-                  className="bg-white text-blue-900 hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 active:scale-95"
-                  asChild
-                >
-                  <Link to="/contact">
-                    Apply Now
-                  </Link>
-                </Button>
-              </motion.div>
-            </motion.div>
-            <motion.div variants={fadeInUp}>
-              <motion.div
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
-              >
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-blue-900 transition-all duration-300 transform hover:scale-105 active:scale-95"
-                  asChild
-                >
-                  <Link to="/contact">
-                    <MapPin className="h-4 w-4 mr-2" />
-                    Book a Tour
-                  </Link>
-                </Button>
-              </motion.div>
+                <Link to="/contact">
+                  Apply Now
+                </Link>
+              </Button>
             </motion.div>
           </motion.div>
         </motion.div>
