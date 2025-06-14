@@ -1,5 +1,6 @@
 
-import { Phone, Mail, MapPin, Instagram, Facebook, Twitter } from "lucide-react";
+
+import { Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -106,6 +107,15 @@ const Footer = () => {
                 <Twitter size={20} />
               </a>
               <a 
+                href="https://www.linkedin.com/company/stevensintegrated" 
+                className="bg-blue-800 hover:bg-blue-700 p-3 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                aria-label="Follow us on LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin size={20} />
+              </a>
+              <a 
                 href="https://www.tiktok.com/@stevensintegrated" 
                 className="bg-blue-800 hover:bg-blue-700 p-3 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 aria-label="Follow us on TikTok"
@@ -135,3 +145,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
