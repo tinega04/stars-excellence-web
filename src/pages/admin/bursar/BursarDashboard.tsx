@@ -1,12 +1,20 @@
 
 import React from 'react';
-import { AdminPortalLayout } from '../common/AdminPortalLayout';
-import { DollarSign, Receipt, TrendingUp, CreditCard } from 'lucide-react';
+import { AdminLayout } from '@/components/admin/AdminLayout';
+import { DollarSign, Receipt, TrendingUp, CreditCard, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const BursarDashboard = () => {
+  const navigation = [
+    { name: 'Dashboard', href: '/admin/bursar', icon: DollarSign },
+    { name: 'Fee Management', href: '/admin/bursar/fees', icon: Receipt },
+    { name: 'Payment Tracking', href: '/admin/bursar/payments', icon: CreditCard },
+    { name: 'Financial Reports', href: '/admin/bursar/reports', icon: FileText },
+    { name: 'Fee Structures', href: '/admin/bursar/structures', icon: TrendingUp },
+  ];
+
   return (
-    <AdminPortalLayout role="bursar">
+    <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
       <div className="space-y-6">
         <div className="flex items-center gap-3">
           <DollarSign className="h-8 w-8 text-blue-600" />
@@ -67,7 +75,7 @@ const BursarDashboard = () => {
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Outstanding Fee Summary</CardTitle>
+              <CardTitle>Outstanding Fee Summary by Grade</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -146,7 +154,7 @@ const BursarDashboard = () => {
           </Card>
         </div>
       </div>
-    </AdminPortalLayout>
+    </AdminLayout>
   );
 };
 

@@ -1,19 +1,28 @@
 
 import React from 'react';
-import { AdminPortalLayout } from '../common/AdminPortalLayout';
-import { Server, Users, Shield, Activity } from 'lucide-react';
+import { AdminLayout } from '@/components/admin/AdminLayout';
+import { Server, Users, Settings, Activity, Shield, Database } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const ITDashboard = () => {
+  const navigation = [
+    { name: 'Dashboard', href: '/admin/it', icon: Server },
+    { name: 'User Management', href: '/admin/it/users', icon: Users },
+    { name: 'System Settings', href: '/admin/it/settings', icon: Settings },
+    { name: 'System Logs', href: '/admin/it/logs', icon: Activity },
+    { name: 'Security', href: '/admin/it/security', icon: Shield },
+    { name: 'Database', href: '/admin/it/database', icon: Database },
+  ];
+
   return (
-    <AdminPortalLayout role="it">
+    <AdminLayout role="it" navigation={navigation} roleTitle="IT Administrator">
       <div className="space-y-6">
         <div className="flex items-center gap-3">
           <Server className="h-8 w-8 text-blue-600" />
           <div>
-            <h2 className="text-3xl font-bold tracking-tight">IT Admin Dashboard</h2>
+            <h2 className="text-3xl font-bold tracking-tight">IT Administration Dashboard</h2>
             <p className="text-muted-foreground">
-              System management and user administration
+              System management and technical support
             </p>
           </div>
         </div>
@@ -74,23 +83,30 @@ const ITDashboard = () => {
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
                     <p className="font-medium">New User Registration</p>
-                    <p className="text-sm text-muted-foreground">Sarah Johnson (Parent)</p>
+                    <p className="text-sm text-muted-foreground">Sarah Johnson (Guardian)</p>
                   </div>
                   <div className="text-sm text-muted-foreground">2 hours ago</div>
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <p className="font-medium">Password Reset</p>
+                    <p className="font-medium">Password Reset Request</p>
                     <p className="text-sm text-muted-foreground">Michael Smith (Educator)</p>
                   </div>
                   <div className="text-sm text-muted-foreground">5 hours ago</div>
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <p className="font-medium">Role Update</p>
+                    <p className="font-medium">Role Permission Update</p>
                     <p className="text-sm text-muted-foreground">Emily Davis (Admin)</p>
                   </div>
                   <div className="text-sm text-muted-foreground">1 day ago</div>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">System Access Granted</p>
+                    <p className="text-sm text-muted-foreground">New IT Support Staff</p>
+                  </div>
+                  <div className="text-sm text-muted-foreground">2 days ago</div>
                 </div>
               </div>
             </CardContent>
@@ -98,7 +114,7 @@ const ITDashboard = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>System Logs</CardTitle>
+              <CardTitle>System Health & Logs</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -114,8 +130,8 @@ const ITDashboard = () => {
                 <div className="p-3 border rounded-lg">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-medium">Login Attempt</p>
-                      <p className="text-sm text-muted-foreground">Failed login from IP: 192.168.1.100</p>
+                      <p className="font-medium">Failed Login Attempt</p>
+                      <p className="text-sm text-muted-foreground">Multiple attempts from IP: 192.168.1.100</p>
                     </div>
                     <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Warning</span>
                   </div>
@@ -123,10 +139,19 @@ const ITDashboard = () => {
                 <div className="p-3 border rounded-lg">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-medium">System Update</p>
-                      <p className="text-sm text-muted-foreground">Security patches applied</p>
+                      <p className="font-medium">Security Update Applied</p>
+                      <p className="text-sm text-muted-foreground">Latest security patches installed</p>
                     </div>
                     <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Info</span>
+                  </div>
+                </div>
+                <div className="p-3 border rounded-lg">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-medium">Performance Optimization</p>
+                      <p className="text-sm text-muted-foreground">Database indexing completed</p>
+                    </div>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Success</span>
                   </div>
                 </div>
               </div>
@@ -134,7 +159,7 @@ const ITDashboard = () => {
           </Card>
         </div>
       </div>
-    </AdminPortalLayout>
+    </AdminLayout>
   );
 };
 
