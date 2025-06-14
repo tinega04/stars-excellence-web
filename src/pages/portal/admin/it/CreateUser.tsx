@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { AdminLayout } from '@/components/portal/admin/AdminLayout';
-import { Server, Users, Settings, Activity, Shield, Database, UserPlus, UsersIcon, UserCog, Calendar as CalendarIcon } from 'lucide-react';
+import { Server, Users, Settings, Activity, Shield, Database, UserPlus, UsersIcon, UserCog, Calendar as CalendarIcon, Mail } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,13 +10,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { EmailPreviewModal } from '@/components/emails/EmailPreviewModal';
 
 const CreateUser = () => {
   const { toast } = useToast();
   const [userType, setUserType] = useState('');
+  const [showEmailPreview, setShowEmailPreview] = useState(false);
+  const [previewEmails, setPreviewEmails] = useState(true);
   const [formData, setFormData] = useState({
     // Basic user fields
     fullName: '',
@@ -98,6 +103,11 @@ const CreateUser = () => {
         title: "Learner Created Successfully",
         description: `${learnerName} (${formData.admissionNumber}) has been enrolled in ${formData.grade}.${formData.guardianFullName ? ` Guardian account created for ${formData.guardianFullName}.` : ''}`,
       });
+
+      // Show email preview if emails would be sent
+      if (previewEmails && (formData.learnerEmail || (formData.guardianFullName && formData.guardianEmail))) {
+        setShowEmailPreview(true);
+      }
     } else {
       // Regular user creation validation
       if (!formData.fullName || !formData.email || !formData.role) {
@@ -113,10 +123,17 @@ const CreateUser = () => {
         title: "User Created Successfully",
         description: `${formData.fullName} has been created as a ${formData.role}.`,
       });
+
+      // Show email preview if emails would be sent
+      if (previewEmails && formData.email) {
+        setShowEmailPreview(true);
+      }
     }
 
-    // Reset form
-    resetForm();
+    // Don't reset form immediately if showing email preview
+    if (!previewEmails || (userType === 'learner' && !formData.learnerEmail && (!formData.guardianFullName || !formData.guardianEmail))) {
+      resetForm();
+    }
   };
 
   const resetForm = () => {
@@ -166,6 +183,11 @@ const CreateUser = () => {
     }
   };
 
+  const handleEmailPreviewClose = () => {
+    setShowEmailPreview(false);
+    resetForm();
+  };
+
   return (
     <AdminLayout role="it" navigation={navigation} roleTitle="IT Administrator">
       <div className="space-y-6">
@@ -199,6 +221,29 @@ const CreateUser = () => {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Email Preview Toggle */}
+              {userType && (
+                <div className="flex items-center space-x-2 p-4 bg-blue-50 rounded-lg">
+                  <Checkbox 
+                    id="previewEmails" 
+                    checked={previewEmails}
+                    onCheckedChange={setPreviewEmails}
+                  />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="previewEmails"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      Preview onboarding emails
+                    </label>
+                    <p className="text-xs text-muted-foreground">
+                      Show email preview after user creation (no emails will be sent)
+                    </p>
+                  </div>
+                  <Mail className="h-4 w-4 text-blue-600 ml-2" />
+                </div>
+              )}
 
               {/* Learner Registration Form */}
               {userType === 'learner' && (
@@ -587,6 +632,14 @@ const CreateUser = () => {
             </form>
           </CardContent>
         </Card>
+
+        {/* Email Preview Modal */}
+        <EmailPreviewModal
+          isOpen={showEmailPreview}
+          onClose={handleEmailPreviewClose}
+          userType={userType as 'learner' | 'educator' | 'guardian'}
+          userData={formData}
+        />
       </div>
     </AdminLayout>
   );
