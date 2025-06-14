@@ -1,6 +1,9 @@
 
 import { Link } from "react-router-dom";
 import { MapPin, Clock, Phone, Globe } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import Navigation from "@/components/layouts/Navigation";
+import Footer from "@/components/layouts/Footer";
 import {
   Card,
   CardContent,
@@ -13,16 +16,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const Campuses = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="bg-blue-900 py-20 text-white">
+      <Helmet>
+        <title>Our Campuses | Stevens Integrated Schools</title>
+        <meta name="description" content="Explore our modern campuses in Nairobi (Imara Daima) and Kitengela (Airview) with state-of-the-art facilities and conducive learning environments." />
+      </Helmet>
+
+      <Navigation />
+
+      <div className="bg-blue-900 py-16 md:py-20 text-white">
         <div className="container">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold">Our Campuses</h1>
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center md:text-left">Our Campuses</h1>
+          <p className="text-blue-100 mt-4 text-center md:text-left max-w-2xl">
+            Modern facilities designed for excellence in education
+          </p>
         </div>
       </div>
       
-      <main className="container py-12">
-        <div className="flex justify-center mb-8">
-          <Link to="/" className="text-blue-600 hover:text-blue-800">← Back to Home</Link>
-        </div>
+      <main className="container py-8 md:py-12 flex-grow">
         <div className="max-w-6xl mx-auto">
           <p className="text-xl text-gray-600 mb-8 text-center">
             Stevens Integrated Schools operates multiple campuses equipped with modern facilities
@@ -87,7 +97,12 @@ const Campuses = () => {
                       </div>
                       <div className="flex items-center">
                         <Phone className="h-5 w-5 mr-2 text-blue-600" />
-                        <span>+254 123 456 789</span>
+                        <a 
+                          href="tel:+254712345678"
+                          className="text-blue-600 hover:text-blue-800 transition-colors"
+                        >
+                          +254 712 345 678
+                        </a>
                       </div>
                       <div className="flex items-center">
                         <Clock className="h-5 w-5 mr-2 text-blue-600" />
@@ -95,7 +110,7 @@ const Campuses = () => {
                       </div>
                       <div className="flex items-center">
                         <Globe className="h-5 w-5 mr-2 text-blue-600" />
-                        <a href="#" className="text-blue-600 hover:underline">campus.nairobi@sis.edu</a>
+                        <a href="mailto:stevensintegratedschools@gmail.com" className="text-blue-600 hover:underline">stevensintegratedschools@gmail.com</a>
                       </div>
                     </CardContent>
                   </Card>
@@ -168,7 +183,12 @@ const Campuses = () => {
                       </div>
                       <div className="flex items-center">
                         <Phone className="h-5 w-5 mr-2 text-blue-600" />
-                        <span>+254 987 654 321</span>
+                        <a 
+                          href="tel:+254798765432"
+                          className="text-blue-600 hover:text-blue-800 transition-colors"
+                        >
+                          +254 798 765 432
+                        </a>
                       </div>
                       <div className="flex items-center">
                         <Clock className="h-5 w-5 mr-2 text-blue-600" />
@@ -176,7 +196,7 @@ const Campuses = () => {
                       </div>
                       <div className="flex items-center">
                         <Globe className="h-5 w-5 mr-2 text-blue-600" />
-                        <a href="#" className="text-blue-600 hover:underline">campus.kitengela@sis.edu</a>
+                        <a href="mailto:stevensintegratedschools@gmail.com" className="text-blue-600 hover:underline">stevensintegratedschools@gmail.com</a>
                       </div>
                     </CardContent>
                   </Card>
@@ -198,6 +218,8 @@ const Campuses = () => {
           </Tabs>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

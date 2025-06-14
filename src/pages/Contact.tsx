@@ -4,6 +4,8 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { Helmet } from "react-helmet-async";
+import Navigation from "@/components/layouts/Navigation";
+import Footer from "@/components/layouts/Footer";
 import {
   Card,
   CardContent,
@@ -109,6 +111,8 @@ const Contact = () => {
         <meta name="description" content="Get in touch with Stevens Integrated Schools. Contact our admissions team or visit our Nairobi and Kitengela campuses." />
       </Helmet>
 
+      <Navigation />
+
       <div className="bg-blue-900 py-16 md:py-20 text-white">
         <div className="container">
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-center md:text-left">Contact Us</h1>
@@ -119,12 +123,6 @@ const Contact = () => {
       </div>
       
       <main className="container py-8 md:py-12 flex-grow">
-        <div className="flex justify-center mb-6 md:mb-8">
-          <Link to="/" className="text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1">
-            ← Back to Home
-          </Link>
-        </div>
-
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
           {/* Contact Information */}
           <Card className="h-fit">
@@ -313,6 +311,8 @@ const Contact = () => {
           </Card>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

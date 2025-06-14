@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
@@ -28,12 +27,6 @@ const About = () => {
       </div>
       
       <main className="container py-8 md:py-12 flex-grow">
-        <div className="flex justify-center mb-6 md:mb-8">
-          <Link to="/" className="text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-colors">
-            <span>← Back to Home</span>
-          </Link>
-        </div>
-
         <div className="max-w-6xl mx-auto">
           <section className="mb-12 md:mb-16">
             <div className="grid md:grid-cols-2 gap-8 items-center">
