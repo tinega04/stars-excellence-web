@@ -127,9 +127,6 @@ const CreateUser = () => {
                     <SelectItem value="educator">Educator</SelectItem>
                     <SelectItem value="guardian">Guardian</SelectItem>
                     <SelectItem value="learner">Learner</SelectItem>
-                    <SelectItem value="principal">Principal</SelectItem>
-                    <SelectItem value="bursar">Bursar</SelectItem>
-                    <SelectItem value="dos">Director of Studies</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
