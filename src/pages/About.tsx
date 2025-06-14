@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import Navigation from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
+import TestimonialsGrid from "@/components/about/TestimonialsGrid";
 
 const About = () => {
   return (
@@ -107,6 +108,11 @@ const About = () => {
               </blockquote>
             </div>
           </section>
+
+          <div className="border-t border-gray-200 my-8 md:my-12"></div>
+
+          {/* Community Testimonials Section */}
+          <TestimonialsGrid />
 
           <div className="border-t border-gray-200 my-8 md:my-12"></div>
 

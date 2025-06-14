@@ -5,6 +5,8 @@ import Navigation from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
 import SEOHelmet from "@/components/layouts/SEOHelmet";
 import OptimizedImage from "@/components/ui/OptimizedImage";
+import AnnouncementsSection from "@/components/home/AnnouncementsSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 import {
   Carousel,
   CarouselContent,
@@ -105,6 +107,9 @@ const Index = () => {
             <CarouselNext className="right-4 md:right-8" aria-label="Next slide" />
           </Carousel>
         </section>
+
+        {/* Announcements Section */}
+        <AnnouncementsSection />
 
         {/* Campuses Section */}
         <section className="py-12 md:py-16 bg-white" aria-labelledby="campuses-heading">
@@ -289,6 +294,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Testimonials Section */}
+        <TestimonialsSection />
 
         {/* News & Events Section */}
         <section className="py-12 md:py-16 bg-blue-50">
