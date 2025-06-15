@@ -1,53 +1,17 @@
+
 import { useState } from "react";
-import { Calendar, ChevronRight, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
 import Navigation from "@/components/layouts/Navigation";
 import Footer from "@/components/layouts/Footer";
 import SEOHelmet from "@/components/layouts/SEOHelmet";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import AnnouncementsSection from "@/components/home/AnnouncementsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
-import Autoplay from "embla-carousel-autoplay";
+import HeroBannersSection from "@/components/home/HeroBannersSection";
+import NewsEventsSection from "@/components/home/NewsEventsSection";
+import { Link } from "react-router-dom";
+import { ChevronRight, MapPin } from "lucide-react";
 
 const Index = () => {
-  const heroSlides = [
-    {
-      title: "Nurturing Excellence From The Start",
-      subtitle: "",
-      description: "Empowering young minds through holistic education tailored for tomorrow's leaders.",
-      primaryCTA: { text: "Explore Our Programs", link: "/academics" },
-      secondaryCTA: null,
-      backgroundImage: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Clean classroom environment for student learning"
-    },
-    {
-      title: "A Foundation for Lifelong Success",
-      subtitle: "",
-      description: "We prepare learners to think critically, act ethically, and grow confidently.",
-      primaryCTA: { text: "Learn More", link: "/about" },
-      secondaryCTA: null,
-      backgroundImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Students engaged in academic activities"
-    },
-    {
-      title: "Tech Meets Tradition",
-      subtitle: "",
-      description: "We blend modern skills like coding and debate with strong academic values.",
-      primaryCTA: { text: "See Our Vision", link: "/about" },
-      secondaryCTA: null,
-      backgroundImage: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Children using laptops and learning together with technology"
-    }
-  ];
-
   return (
     <div className="min-h-screen flex flex-col">
       <SEOHelmet />
@@ -55,58 +19,8 @@ const Index = () => {
       <Navigation />
 
       <main className="flex-grow">
-        {/* Hero Carousel Section */}
-        <section className="relative" aria-label="Hero carousel">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            plugins={[
-              Autoplay({
-                delay: 5000,
-              }),
-            ]}
-            className="w-full"
-          >
-            <CarouselContent>
-              {heroSlides.map((slide, index) => (
-                <CarouselItem key={index}>
-                  <article className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
-                    <div className="absolute inset-0 opacity-20">
-                      <OptimizedImage 
-                        src={slide.backgroundImage}
-                        alt={slide.alt}
-                        className="w-full h-full object-cover"
-                        loading={index === 0 ? "eager" : "lazy"}
-                        priority={index === 0}
-                        width={1600}
-                        height={900}
-                      />
-                    </div>
-                    <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center z-10">
-                      <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-blue-800 mb-4 max-w-4xl leading-tight">
-                        {slide.title}
-                      </h1>
-                      <p className="text-gray-700 mb-8 max-w-2xl text-sm md:text-base lg:text-lg leading-relaxed">
-                        {slide.description}
-                      </p>
-                      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <Button asChild size="lg" className="bg-blue-700 hover:bg-blue-800">
-                          <Link to={slide.primaryCTA.link} aria-label={`${slide.primaryCTA.text} - Learn more about our programs`}>
-                            {slide.primaryCTA.text}
-                          </Link>
-                        </Button>
-                      </div>
-                    </div>
-                  </article>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-4 md:left-8" aria-label="Previous slide" />
-            <CarouselNext className="right-4 md:right-8" aria-label="Next slide" />
-          </Carousel>
-        </section>
+        {/* Hero Carousel Section - Now using database content */}
+        <HeroBannersSection />
 
         {/* Announcements Section */}
         <AnnouncementsSection />
@@ -298,63 +212,8 @@ const Index = () => {
         {/* Testimonials Section */}
         <TestimonialsSection />
 
-        {/* News & Events Section */}
-        <section className="py-12 md:py-16 bg-blue-50">
-          <div className="container mx-auto px-4">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-center text-blue-800 mb-8 md:mb-12">Latest News & Events</h2>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
-              {[
-                {
-                  title: "Annual Sports Day 2025",
-                  date: "June 15, 2025",
-                  description: "Join us for our annual sports day celebration featuring competitions, performances, and fun activities for all grade levels.",
-                  image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=600&h=400&q=80",
-                  alt: "Students participating in annual sports day activities"
-                },
-                {
-                  title: "CBC Parent Workshop",
-                  date: "June 8, 2025",
-                  description: "Parents are invited to learn about CBC implementation and discover effective strategies to support their children's learning journey at home.",
-                  image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=600&h=400&q=80",
-                  alt: "Parents attending educational workshop about CBC curriculum"
-                },
-                {
-                  title: "New Science Lab Opening",
-                  date: "May 28, 2025",
-                  description: "We're excited to unveil our new state-of-the-art science laboratory at our Nairobi campus, enhancing hands-on learning experiences.",
-                  image: "https://images.unsplash.com/photo-1431576901776-e539bd916ba2?auto=format&fit=crop&w=600&h=400&q=80",
-                  alt: "Modern science laboratory with advanced equipment for student experiments"
-                }
-              ].map((news, index) => (
-                <article key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="h-40 md:h-48 overflow-hidden">
-                    <img 
-                      src={news.image}
-                      alt={news.alt}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-2">
-                      <Calendar size={16} className="mr-2" />
-                      <time>{news.date}</time>
-                    </div>
-                    <h3 className="font-serif text-lg md:text-xl font-bold text-blue-700 mb-3">{news.title}</h3>
-                    <p className="text-gray-600 mb-4 text-sm md:text-base leading-relaxed">
-                      {news.description}
-                    </p>
-                    <button className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition duration-300 group text-sm">
-                      Read More 
-                      <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* News & Events Section - Now using database content */}
+        <NewsEventsSection />
 
         {/* Final CTA Section */}
         <section className="py-12 md:py-16 bg-gradient-to-r from-blue-700 to-blue-800 text-white">

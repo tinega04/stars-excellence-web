@@ -166,6 +166,35 @@ export interface Database {
           submitted_at?: string
         }
       }
+      hero_banners: {
+        Row: {
+          id: string
+          title: string
+          subtitle: string | null
+          image_url: string | null
+          cta_text: string | null
+          cta_link: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          subtitle?: string | null
+          image_url?: string | null
+          cta_text?: string | null
+          cta_link?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          subtitle?: string | null
+          image_url?: string | null
+          cta_text?: string | null
+          cta_link?: string | null
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

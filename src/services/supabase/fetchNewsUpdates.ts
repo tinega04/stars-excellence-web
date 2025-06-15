@@ -9,12 +9,13 @@ export interface NewsUpdate {
   created_at: string;
 }
 
-export const fetchNewsUpdates = async (): Promise<NewsUpdate[]> => {
+export const fetchNewsUpdates = async (limit: number = 5): Promise<NewsUpdate[]> => {
   try {
     const { data, error } = await supabase
       .from('news_updates')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(limit);
 
     if (error) {
       console.error('Error fetching news updates:', error);
@@ -24,6 +25,6 @@ export const fetchNewsUpdates = async (): Promise<NewsUpdate[]> => {
     return data || [];
   } catch (error) {
     console.error('Failed to fetch news updates:', error);
-    return [];
+    throw error;
   }
 };
