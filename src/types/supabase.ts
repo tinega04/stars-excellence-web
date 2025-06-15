@@ -195,6 +195,104 @@ export interface Database {
           created_at?: string
         }
       }
+      newsletter_subscribers: {
+        Row: {
+          id: string
+          email: string
+          subscribed_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          subscribed_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          subscribed_at?: string
+        }
+      }
+      tour_requests: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          phone: string | null
+          preferred_date: string | null
+          message: string | null
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          phone?: string | null
+          preferred_date?: string | null
+          message?: string | null
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          phone?: string | null
+          preferred_date?: string | null
+          message?: string | null
+          submitted_at?: string
+        }
+      }
+      faqs: {
+        Row: {
+          id: string
+          question: string
+          answer: string
+          category: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          question: string
+          answer: string
+          category?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          question?: string
+          answer?: string
+          category?: string | null
+          created_at?: string
+        }
+      }
+      staff_profiles: {
+        Row: {
+          id: string
+          name: string
+          title: string
+          bio: string | null
+          department: string | null
+          photo_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          title: string
+          bio?: string | null
+          department?: string | null
+          photo_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          title?: string
+          bio?: string | null
+          department?: string | null
+          photo_url?: string | null
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
