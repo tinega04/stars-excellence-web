@@ -108,6 +108,64 @@ export interface Database {
           uploaded_at?: string
         }
       }
+      contact_messages: {
+        Row: {
+          id: string
+          full_name: string
+          email: string
+          subject: string
+          message: string
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          full_name: string
+          email: string
+          subject: string
+          message: string
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          email?: string
+          subject?: string
+          message?: string
+          submitted_at?: string
+        }
+      }
+      admissions_applications: {
+        Row: {
+          id: string
+          applicant_name: string
+          parent_name: string
+          contact_info: Json
+          grade_applied_for: string
+          message: string | null
+          document_url: string | null
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          applicant_name: string
+          parent_name: string
+          contact_info: Json
+          grade_applied_for: string
+          message?: string | null
+          document_url?: string | null
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          applicant_name?: string
+          parent_name?: string
+          contact_info?: Json
+          grade_applied_for?: string
+          message?: string | null
+          document_url?: string | null
+          submitted_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

@@ -7,6 +7,7 @@ import WhyJoinSection from "@/components/admissions/WhyJoinSection";
 import AdmissionsProcessSection from "@/components/admissions/AdmissionsProcessSection";
 import RequirementsSection from "@/components/admissions/RequirementsSection";
 import EnrollmentSection from "@/components/admissions/EnrollmentSection";
+import AdmissionsFormSection from "@/components/admissions/AdmissionsFormSection";
 import CallToActionSection from "@/components/admissions/CallToActionSection";
 
 const Admissions = () => {
@@ -26,6 +27,7 @@ const Admissions = () => {
         <AdmissionsProcessSection />
         <RequirementsSection />
         <EnrollmentSection />
+        <AdmissionsFormSection />
         <CallToActionSection />
       </main>
 

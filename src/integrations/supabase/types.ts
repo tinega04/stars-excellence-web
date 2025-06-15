@@ -9,7 +9,66 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admissions_applications: {
+        Row: {
+          applicant_name: string
+          contact_info: Json
+          document_url: string | null
+          grade_applied_for: string
+          id: string
+          message: string | null
+          parent_name: string
+          submitted_at: string
+        }
+        Insert: {
+          applicant_name: string
+          contact_info: Json
+          document_url?: string | null
+          grade_applied_for: string
+          id?: string
+          message?: string | null
+          parent_name: string
+          submitted_at?: string
+        }
+        Update: {
+          applicant_name?: string
+          contact_info?: Json
+          document_url?: string | null
+          grade_applied_for?: string
+          id?: string
+          message?: string | null
+          parent_name?: string
+          submitted_at?: string
+        }
+        Relationships: []
+      }
+      contact_messages: {
+        Row: {
+          email: string
+          full_name: string
+          id: string
+          message: string
+          subject: string
+          submitted_at: string
+        }
+        Insert: {
+          email: string
+          full_name: string
+          id?: string
+          message: string
+          subject: string
+          submitted_at?: string
+        }
+        Update: {
+          email?: string
+          full_name?: string
+          id?: string
+          message?: string
+          subject?: string
+          submitted_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
