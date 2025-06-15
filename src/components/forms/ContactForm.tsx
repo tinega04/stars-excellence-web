@@ -36,8 +36,16 @@ const ContactForm = () => {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      await submitContactMessage(data);
-      toast.success("Message sent successfully! We'll get back to you soon.");
+      // Ensure all fields are strings and conform to ContactMessageData type
+      const contactData: ContactMessageData = {
+        full_name: data.full_name || "",
+        email: data.email || "",
+        subject: data.subject || "",
+        message: data.message || "",
+      };
+      
+      await submitContactMessage(contactData);
+      toast.success("Message sent successfully!");
       form.reset();
     } catch (error) {
       console.error('Contact form submission error:', error);
