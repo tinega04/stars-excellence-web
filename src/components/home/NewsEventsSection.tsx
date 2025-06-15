@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Calendar, ChevronRight } from 'lucide-react';
 import { fetchNewsUpdates, type NewsUpdate } from '@/services/supabase/fetchNewsUpdates';
@@ -59,7 +58,7 @@ const NewsEventsSection = () => {
         // Fetch both news updates and announcements concurrently
         const [newsData, announcementsData] = await Promise.allSettled([
           fetchNewsUpdates(3),
-          fetchAnnouncements(3)
+          fetchAnnouncements()
         ]);
 
         const combinedData: NewsEventItem[] = [];
