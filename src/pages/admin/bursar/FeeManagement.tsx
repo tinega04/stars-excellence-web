@@ -12,10 +12,15 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DollarSign, Plus, Edit, Archive, Copy } from 'lucide-react';
 import { fetchFeeStructures } from '@/services/supabase/fetchFeeStructures';
+import type { Database } from '@/types/supabase';
+
+type FeeStructureWithItems = Database['public']['Tables']['fee_structures']['Row'] & {
+  fee_structure_items: Database['public']['Tables']['fee_structure_items']['Row'][];
+};
 
 const FeeManagement: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingStructure, setEditingStructure] = useState<any>(null);
+  const [editingStructure, setEditingStructure] = useState<FeeStructureWithItems | null>(null);
 
   const { data: feeStructures, isLoading } = useQuery({
     queryKey: ['fee-structures'],
@@ -35,7 +40,7 @@ const FeeManagement: React.FC = () => {
     setIsDialogOpen(true);
   };
 
-  const handleEditStructure = (structure: any) => {
+  const handleEditStructure = (structure: FeeStructureWithItems) => {
     setEditingStructure(structure);
     setIsDialogOpen(true);
   };
@@ -104,17 +109,17 @@ const FeeManagement: React.FC = () => {
                     <div className="flex justify-between items-center">
                       <span className="font-medium">Base Amount:</span>
                       <span className="font-bold text-green-600">
-                        KSh {structure.base_amount?.toLocaleString()}
+                        KSh {structure.base_amount.toLocaleString()}
                       </span>
                     </div>
                     {structure.fee_structure_items && structure.fee_structure_items.length > 0 && (
                       <div className="pt-2 border-t">
                         <p className="text-sm font-medium mb-2">Fee Breakdown:</p>
                         <div className="grid grid-cols-2 gap-2 text-sm">
-                          {structure.fee_structure_items.map((item: any) => (
+                          {structure.fee_structure_items.map((item) => (
                             <div key={item.id} className="flex justify-between">
                               <span>{item.name}</span>
-                              <span>KSh {item.amount?.toLocaleString()}</span>
+                              <span>KSh {item.amount.toLocaleString()}</span>
                             </div>
                           ))}
                         </div>

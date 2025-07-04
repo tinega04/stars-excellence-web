@@ -9,6 +9,17 @@ import { DatePickerWithRange } from '@/components/ui/date-picker';
 import { DollarSign, Download, FileText, TrendingUp, Users } from 'lucide-react';
 import { fetchPayments } from '@/services/supabase/fetchPayments';
 import { fetchStudentBalances } from '@/services/supabase/fetchStudentBalances';
+import type { Database } from '@/types/supabase';
+
+type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
+  students: Database['public']['Tables']['students']['Row'] | null;
+  payment_items: Database['public']['Tables']['payment_items']['Row'][];
+};
+
+type StudentBalanceWithDetails = Database['public']['Tables']['student_balances']['Row'] & {
+  students: Database['public']['Tables']['students']['Row'] | null;
+  fee_structures: Database['public']['Tables']['fee_structures']['Row'] | null;
+};
 
 const FinancialReports: React.FC = () => {
   const [reportPeriod, setReportPeriod] = useState('current-term');
@@ -34,16 +45,16 @@ const FinancialReports: React.FC = () => {
 
   // Calculate statistics
   const totalCollected = payments?.reduce((sum, payment) => 
-    payment.payment_status === 'completed' ? sum + (payment.amount || 0) : sum, 0
+    payment.payment_status === 'completed' ? sum + payment.amount : sum, 0
   ) || 0;
 
   const totalOutstanding = balances?.reduce((sum, balance) => 
-    sum + (balance.balance || 0), 0
+    sum + balance.balance, 0
   ) || 0;
 
   const paymentMethods = payments?.reduce((acc, payment) => {
     if (payment.payment_status === 'completed') {
-      acc[payment.payment_method] = (acc[payment.payment_method] || 0) + (payment.amount || 0);
+      acc[payment.payment_method] = (acc[payment.payment_method] || 0) + payment.amount;
     }
     return acc;
   }, {} as Record<string, number>) || {};
@@ -178,7 +189,7 @@ const FinancialReports: React.FC = () => {
                 {Array.from(new Set(balances?.map(b => b.students?.grade_level).filter(Boolean)))
                   .map(grade => {
                     const gradeBalances = balances?.filter(b => b.students?.grade_level === grade) || [];
-                    const totalBalance = gradeBalances.reduce((sum, b) => sum + (b.balance || 0), 0);
+                    const totalBalance = gradeBalances.reduce((sum, b) => sum + b.balance, 0);
                     return (
                       <div key={grade} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">

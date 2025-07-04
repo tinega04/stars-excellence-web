@@ -1,7 +1,13 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/types/supabase';
 
-export const fetchStudentBalances = async () => {
+type StudentBalanceWithDetails = Database['public']['Tables']['student_balances']['Row'] & {
+  students: Database['public']['Tables']['students']['Row'] | null;
+  fee_structures: Database['public']['Tables']['fee_structures']['Row'] | null;
+};
+
+export const fetchStudentBalances = async (): Promise<StudentBalanceWithDetails[]> => {
   const { data, error } = await supabase
     .from('student_balances')
     .select(`
@@ -28,5 +34,5 @@ export const fetchStudentBalances = async () => {
     throw error;
   }
 
-  return data;
+  return data as StudentBalanceWithDetails[];
 };

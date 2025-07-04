@@ -1,7 +1,12 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/types/supabase';
 
-export const fetchFeeStructures = async () => {
+type FeeStructureWithItems = Database['public']['Tables']['fee_structures']['Row'] & {
+  fee_structure_items: Database['public']['Tables']['fee_structure_items']['Row'][];
+};
+
+export const fetchFeeStructures = async (): Promise<FeeStructureWithItems[]> => {
   const { data, error } = await supabase
     .from('fee_structures')
     .select(`
@@ -15,5 +20,5 @@ export const fetchFeeStructures = async () => {
     throw error;
   }
 
-  return data;
+  return data as FeeStructureWithItems[];
 };

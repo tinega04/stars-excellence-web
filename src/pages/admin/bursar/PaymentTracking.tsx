@@ -11,6 +11,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DollarSign, Plus, Search, Filter, Download } from 'lucide-react';
 import { fetchPayments } from '@/services/supabase/fetchPayments';
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/types/supabase';
+
+type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
+  students: Database['public']['Tables']['students']['Row'] | null;
+  payment_items: Database['public']['Tables']['payment_items']['Row'][];
+};
 
 const PaymentTracking: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -177,7 +183,7 @@ const PaymentTracking: React.FC = () => {
                         )}
                       </TableCell>
                       <TableCell className="font-medium text-green-600">
-                        KSh {payment.amount?.toLocaleString()}
+                        KSh {payment.amount.toLocaleString()}
                       </TableCell>
                       <TableCell>{getMethodBadge(payment.payment_method)}</TableCell>
                       <TableCell>{getStatusBadge(payment.payment_status)}</TableCell>

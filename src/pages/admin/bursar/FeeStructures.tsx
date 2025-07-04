@@ -7,6 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DollarSign, Archive, Copy, Edit, Trash2 } from 'lucide-react';
 import { fetchFeeStructures } from '@/services/supabase/fetchFeeStructures';
+import type { Database } from '@/types/supabase';
+
+type FeeStructureWithItems = Database['public']['Tables']['fee_structures']['Row'] & {
+  fee_structure_items: Database['public']['Tables']['fee_structure_items']['Row'][];
+};
 
 const FeeStructures: React.FC = () => {
   const { data: feeStructures, isLoading } = useQuery({
@@ -88,7 +93,7 @@ const FeeStructures: React.FC = () => {
                         <div className="flex justify-between items-center">
                           <span className="font-medium">Base Amount:</span>
                           <span className="font-bold text-green-600 text-lg">
-                            KSh {structure.base_amount?.toLocaleString()}
+                            KSh {structure.base_amount.toLocaleString()}
                           </span>
                         </div>
                         
@@ -96,7 +101,7 @@ const FeeStructures: React.FC = () => {
                           <div className="border-t pt-4">
                             <h4 className="font-medium mb-3">Fee Components:</h4>
                             <div className="space-y-2">
-                              {structure.fee_structure_items.map((item: any) => (
+                              {structure.fee_structure_items.map((item) => (
                                 <div key={item.id} className="flex justify-between items-center py-2 px-3 bg-gray-50 rounded">
                                   <div>
                                     <span className="font-medium">{item.name}</span>
@@ -113,7 +118,7 @@ const FeeStructures: React.FC = () => {
                                     )}
                                   </div>
                                   <span className="font-semibold">
-                                    KSh {item.amount?.toLocaleString()}
+                                    KSh {item.amount.toLocaleString()}
                                   </span>
                                 </div>
                               ))}
@@ -122,9 +127,9 @@ const FeeStructures: React.FC = () => {
                               <span>Total Amount:</span>
                               <span className="text-green-600 text-lg">
                                 KSh {(
-                                  (structure.base_amount || 0) + 
-                                  structure.fee_structure_items.reduce((sum: number, item: any) => 
-                                    sum + (item.amount || 0), 0
+                                  structure.base_amount + 
+                                  structure.fee_structure_items.reduce((sum, item) => 
+                                    sum + item.amount, 0
                                   )
                                 ).toLocaleString()}
                               </span>
@@ -175,7 +180,7 @@ const FeeStructures: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <span className="font-medium">Base Amount:</span>
                         <span className="font-bold text-green-600">
-                          KSh {structure.base_amount?.toLocaleString()}
+                          KSh {structure.base_amount.toLocaleString()}
                         </span>
                       </div>
                     </CardContent>

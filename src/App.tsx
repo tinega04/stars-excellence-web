@@ -9,10 +9,7 @@ import Index from '@/pages/Index';
 import About from '@/pages/About';
 import Academics from '@/pages/Academics';
 import Campuses from '@/pages/Campuses';
-import Calendar from '@/pages/Calendar';
 import Contact from '@/pages/Contact';
-import PrivacyPolicy from '@/pages/PrivacyPolicy';
-import TermsOfService from '@/pages/TermsOfService';
 import Portals from '@/pages/Portals';
 import Admissions from '@/pages/Admissions';
 import FaqDemo from '@/pages/FaqDemo';
@@ -58,17 +55,9 @@ const queryClient = new QueryClient({
   },
 });
 
-function QueryClient({ children }: { children: React.ReactNode }) {
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
-}
-
 function App() {
   return (
-    <QueryClient>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <div className="min-h-screen bg-background">
           <Toaster />
@@ -78,10 +67,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/academics" element={<Academics />} />
             <Route path="/campuses" element={<Campuses />} />
-            <Route path="/calendar" element={<Calendar />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/portals" element={<Portals />} />
             <Route path="/admissions" element={<Admissions />} />
             <Route path="/faq-demo" element={<FaqDemo />} />
@@ -122,7 +108,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </QueryClient>
+    </QueryClientProvider>
   );
 }
 

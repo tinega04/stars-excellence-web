@@ -1,7 +1,10 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/types/supabase';
 
-export const fetchStudents = async () => {
+type Student = Database['public']['Tables']['students']['Row'];
+
+export const fetchStudents = async (): Promise<Student[]> => {
   const { data, error } = await supabase
     .from('students')
     .select('*')
