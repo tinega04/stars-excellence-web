@@ -9,7 +9,7 @@ import { DatePickerWithRange } from '@/components/ui/date-picker';
 import { DollarSign, Download, FileText, TrendingUp, Users } from 'lucide-react';
 import { fetchPayments } from '@/services/supabase/fetchPayments';
 import { fetchStudentBalances } from '@/services/supabase/fetchStudentBalances';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/integrations/supabase/types';
 
 type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
   students: Database['public']['Tables']['students']['Row'] | null;
@@ -25,12 +25,12 @@ const FinancialReports: React.FC = () => {
   const [reportPeriod, setReportPeriod] = useState('current-term');
   const [dateRange, setDateRange] = useState<any>(null);
 
-  const { data: payments } = useQuery({
+  const { data: payments, error: paymentsError } = useQuery({
     queryKey: ['payments'],
     queryFn: fetchPayments,
   });
 
-  const { data: balances } = useQuery({
+  const { data: balances, error: balancesError } = useQuery({
     queryKey: ['student-balances'],
     queryFn: fetchStudentBalances,
   });
@@ -43,21 +43,35 @@ const FinancialReports: React.FC = () => {
     { name: 'Fee Structures', href: '/admin/bursar/structures', icon: DollarSign },
   ];
 
-  // Calculate statistics
+  // Calculate statistics with safety checks
   const totalCollected = payments?.reduce((sum, payment) => 
-    payment.payment_status === 'completed' ? sum + payment.amount : sum, 0
+    payment.payment_status === 'completed' ? sum + (payment.amount || 0) : sum, 0
   ) || 0;
 
   const totalOutstanding = balances?.reduce((sum, balance) => 
-    sum + balance.balance, 0
+    sum + (balance.balance || 0), 0
   ) || 0;
 
   const paymentMethods = payments?.reduce((acc, payment) => {
     if (payment.payment_status === 'completed') {
-      acc[payment.payment_method] = (acc[payment.payment_method] || 0) + payment.amount;
+      const method = payment.payment_method || 'unknown';
+      acc[method] = (acc[method] || 0) + (payment.amount || 0);
     }
     return acc;
   }, {} as Record<string, number>) || {};
+
+  if (paymentsError || balancesError) {
+    console.error('Error loading financial data:', paymentsError || balancesError);
+    return (
+      <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600">Error loading financial data. Please try again.</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
@@ -162,7 +176,7 @@ const FinancialReports: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {Object.entries(paymentMethods).map(([method, amount]) => (
+                {Object.entries(paymentMethods).length > 0 ? Object.entries(paymentMethods).map(([method, amount]) => (
                   <div key={method} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-blue-500"></div>
@@ -175,7 +189,9 @@ const FinancialReports: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : (
+                  <p className="text-muted-foreground text-center py-4">No payment data available</p>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -186,10 +202,10 @@ const FinancialReports: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {Array.from(new Set(balances?.map(b => b.students?.grade_level).filter(Boolean)))
+                {balances && balances.length > 0 ? Array.from(new Set(balances.map(b => b.students?.grade_level).filter(Boolean)))
                   .map(grade => {
-                    const gradeBalances = balances?.filter(b => b.students?.grade_level === grade) || [];
-                    const totalBalance = gradeBalances.reduce((sum, b) => sum + b.balance, 0);
+                    const gradeBalances = balances.filter(b => b.students?.grade_level === grade);
+                    const totalBalance = gradeBalances.reduce((sum, b) => sum + (b.balance || 0), 0);
                     return (
                       <div key={grade} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -204,7 +220,9 @@ const FinancialReports: React.FC = () => {
                         </div>
                       </div>
                     );
-                  })}
+                  }) : (
+                    <p className="text-muted-foreground text-center py-4">No balance data available</p>
+                  )}
               </div>
             </CardContent>
           </Card>

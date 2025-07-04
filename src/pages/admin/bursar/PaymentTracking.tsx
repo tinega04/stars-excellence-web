@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DollarSign, Plus, Search, Filter, Download } from 'lucide-react';
 import { fetchPayments } from '@/services/supabase/fetchPayments';
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/integrations/supabase/types';
 
 type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
   students: Database['public']['Tables']['students']['Row'] | null;
@@ -22,7 +22,7 @@ const PaymentTracking: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data: payments, isLoading, refetch } = useQuery({
+  const { data: payments, isLoading, refetch, error } = useQuery({
     queryKey: ['payments'],
     queryFn: fetchPayments,
   });
@@ -82,11 +82,28 @@ const PaymentTracking: React.FC = () => {
     );
   };
 
-  const filteredPayments = payments?.filter(payment =>
-    payment.students?.first_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    payment.students?.last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    payment.payment_reference?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPayments = payments?.filter(payment => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      payment.students?.first_name?.toLowerCase().includes(searchLower) ||
+      payment.students?.last_name?.toLowerCase().includes(searchLower) ||
+      payment.payment_reference?.toLowerCase().includes(searchLower) ||
+      ''
+    );
+  }) || [];
+
+  if (error) {
+    console.error('Error loading payments:', error);
+    return (
+      <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600">Error loading payments. Please try again.</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
@@ -165,17 +182,17 @@ const PaymentTracking: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredPayments?.map((payment) => (
+                  {filteredPayments.length > 0 ? filteredPayments.map((payment) => (
                     <TableRow key={payment.id}>
-                      <TableCell className="font-medium">{payment.payment_reference}</TableCell>
+                      <TableCell className="font-medium">{payment.payment_reference || 'N/A'}</TableCell>
                       <TableCell>
                         {payment.students ? (
                           <div>
                             <div className="font-medium">
-                              {payment.students.first_name} {payment.students.last_name}
+                              {payment.students.first_name || ''} {payment.students.last_name || ''}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Grade {payment.students.grade_level}
+                              Grade {payment.students.grade_level || 'N/A'}
                             </div>
                           </div>
                         ) : (
@@ -183,12 +200,12 @@ const PaymentTracking: React.FC = () => {
                         )}
                       </TableCell>
                       <TableCell className="font-medium text-green-600">
-                        KSh {payment.amount.toLocaleString()}
+                        KSh {(payment.amount || 0).toLocaleString()}
                       </TableCell>
-                      <TableCell>{getMethodBadge(payment.payment_method)}</TableCell>
-                      <TableCell>{getStatusBadge(payment.payment_status)}</TableCell>
+                      <TableCell>{getMethodBadge(payment.payment_method || 'unknown')}</TableCell>
+                      <TableCell>{getStatusBadge(payment.payment_status || 'unknown')}</TableCell>
                       <TableCell>
-                        {new Date(payment.payment_date).toLocaleDateString()}
+                        {payment.payment_date ? new Date(payment.payment_date).toLocaleDateString() : 'N/A'}
                       </TableCell>
                       <TableCell>
                         <Button variant="ghost" size="sm">
@@ -196,8 +213,7 @@ const PaymentTracking: React.FC = () => {
                         </Button>
                       </TableCell>
                     </TableRow>
-                  ))}
-                  {filteredPayments?.length === 0 && (
+                  )) : (
                     <TableRow>
                       <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                         No payments found

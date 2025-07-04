@@ -1,77 +1,74 @@
 
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { fetchHeroBanners } from '@/services/supabase/fetchHeroBanners';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import OptimizedImage from '@/components/ui/OptimizedImage';
-import { Skeleton } from '@/components/ui/skeleton';
-import { fetchHeroBanners } from '@/services/supabase/fetchHeroBanners';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const HeroBannersSection = () => {
-  const { data: banners, isLoading, error } = useQuery({
+const HeroBannersSection: React.FC = () => {
+  const { data: heroBanners, isLoading, error } = useQuery({
     queryKey: ['hero-banners'],
     queryFn: fetchHeroBanners,
   });
 
   if (error) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-muted-foreground">
-          Hero banners are temporarily unavailable. Please check back soon.
-        </p>
-      </div>
-    );
+    console.error('Error loading hero banners:', error);
+    return null;
   }
 
   if (isLoading) {
     return (
-      <div className="relative w-full h-96 bg-gray-100 rounded-lg overflow-hidden">
-        <Skeleton className="w-full h-full" />
+      <div className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container mx-auto px-4 py-20">
+          <div className="animate-pulse">
+            <div className="h-12 bg-white/20 rounded mb-4"></div>
+            <div className="h-6 bg-white/20 rounded mb-8"></div>
+            <div className="h-12 w-32 bg-white/20 rounded"></div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  if (!banners || banners.length === 0) {
+  if (!heroBanners || heroBanners.length === 0) {
     return (
-      <div className="relative w-full h-96 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg overflow-hidden flex items-center justify-center">
-        <div className="text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Welcome to Our School</h1>
-          <p className="text-xl mb-8">Nurturing excellence in education since 1985</p>
+      <div className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container mx-auto px-4 py-20 text-center">
+          <h1 className="text-5xl font-bold mb-6">
+            Welcome to Our Educational Portal
+          </h1>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Empowering students, teachers, and parents with comprehensive educational tools and resources.
+          </p>
           <Button size="lg" variant="secondary">
-            Learn More
+            Get Started
           </Button>
         </div>
       </div>
     );
   }
 
+  const primaryBanner = heroBanners[0];
+
   return (
-    <div className="relative w-full h-96 bg-gray-100 rounded-lg overflow-hidden">
-      {banners.map((banner, index) => (
-        <div key={banner.id} className="relative w-full h-full">
-          {banner.image_url && (
-            <OptimizedImage
-              src={banner.image_url}
-              alt={banner.title}
-              className="w-full h-full object-cover"
-            />
+    <div className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <div className="container mx-auto px-4 py-20">
+        <div className="text-center">
+          <h1 className="text-5xl font-bold mb-6">
+            {primaryBanner.title || 'Welcome to Our Educational Portal'}
+          </h1>
+          {primaryBanner.subtitle && (
+            <p className="text-xl mb-8 max-w-2xl mx-auto">
+              {primaryBanner.subtitle}
+            </p>
           )}
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-            <div className="text-center text-white max-w-4xl px-4">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">{banner.title}</h1>
-              {banner.subtitle && (
-                <p className="text-xl md:text-2xl mb-8">{banner.subtitle}</p>
-              )}
-              {banner.cta_text && banner.cta_link && (
-                <Button size="lg" asChild>
-                  <a href={banner.cta_link}>{banner.cta_text}</a>
-                </Button>
-              )}
-            </div>
-          </div>
+          {primaryBanner.cta_text && (
+            <Button size="lg" variant="secondary">
+              {primaryBanner.cta_text}
+            </Button>
+          )}
         </div>
-      ))}
+      </div>
     </div>
   );
 };

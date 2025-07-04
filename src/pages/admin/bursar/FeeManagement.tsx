@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DollarSign, Plus, Edit, Archive, Copy } from 'lucide-react';
 import { fetchFeeStructures } from '@/services/supabase/fetchFeeStructures';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/integrations/supabase/types';
 
 type FeeStructureWithItems = Database['public']['Tables']['fee_structures']['Row'] & {
   fee_structure_items: Database['public']['Tables']['fee_structure_items']['Row'][];
@@ -22,7 +22,7 @@ const FeeManagement: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingStructure, setEditingStructure] = useState<FeeStructureWithItems | null>(null);
 
-  const { data: feeStructures, isLoading } = useQuery({
+  const { data: feeStructures, isLoading, error } = useQuery({
     queryKey: ['fee-structures'],
     queryFn: fetchFeeStructures,
   });
@@ -44,6 +44,19 @@ const FeeManagement: React.FC = () => {
     setEditingStructure(structure);
     setIsDialogOpen(true);
   };
+
+  if (error) {
+    console.error('Error loading fee structures:', error);
+    return (
+      <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600">Error loading fee structures. Please try again.</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout role="bursar" navigation={navigation} roleTitle="Bursar">
@@ -78,14 +91,14 @@ const FeeManagement: React.FC = () => {
           </div>
         ) : (
           <div className="grid gap-4">
-            {feeStructures?.map((structure) => (
+            {feeStructures && feeStructures.length > 0 ? feeStructures.map((structure) => (
               <Card key={structure.id}>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-lg">{structure.name}</CardTitle>
+                      <CardTitle className="text-lg">{structure.name || 'Unnamed Structure'}</CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        {structure.academic_year} - {structure.term} | Grade {structure.grade_level}
+                        {structure.academic_year || 'N/A'} - {structure.term || 'N/A'} | Grade {structure.grade_level || 'N/A'}
                       </p>
                     </div>
                     <div className="flex gap-2">
@@ -109,7 +122,7 @@ const FeeManagement: React.FC = () => {
                     <div className="flex justify-between items-center">
                       <span className="font-medium">Base Amount:</span>
                       <span className="font-bold text-green-600">
-                        KSh {structure.base_amount.toLocaleString()}
+                        KSh {(structure.base_amount || 0).toLocaleString()}
                       </span>
                     </div>
                     {structure.fee_structure_items && structure.fee_structure_items.length > 0 && (
@@ -118,8 +131,8 @@ const FeeManagement: React.FC = () => {
                         <div className="grid grid-cols-2 gap-2 text-sm">
                           {structure.fee_structure_items.map((item) => (
                             <div key={item.id} className="flex justify-between">
-                              <span>{item.name}</span>
-                              <span>KSh {item.amount.toLocaleString()}</span>
+                              <span>{item.name || 'Unnamed Item'}</span>
+                              <span>KSh {(item.amount || 0).toLocaleString()}</span>
                             </div>
                           ))}
                         </div>
@@ -128,7 +141,17 @@ const FeeManagement: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            )) : (
+              <Card>
+                <CardContent className="text-center py-8">
+                  <p className="text-muted-foreground">No fee structures found</p>
+                  <Button onClick={handleCreateStructure} className="mt-4">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create Your First Fee Structure
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         )}
 

@@ -1,6 +1,6 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/integrations/supabase/types';
 
 type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
   students: Database['public']['Tables']['students']['Row'] | null;
@@ -8,24 +8,35 @@ type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
 };
 
 export const fetchPayments = async (): Promise<PaymentWithDetails[]> => {
-  const { data, error } = await supabase
-    .from('payments')
-    .select(`
-      *,
-      students (
-        student_id,
-        first_name,
-        last_name,
-        grade_level
-      ),
-      payment_items (*)
-    `)
-    .order('payment_date', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('payments')
+      .select(`
+        *,
+        students (
+          student_id,
+          first_name,
+          last_name,
+          grade_level
+        ),
+        payment_items (*)
+      `)
+      .order('payment_date', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching payments:', error);
-    throw error;
+    if (error) {
+      console.error('Error fetching payments:', error);
+      throw error;
+    }
+
+    // Ensure payment_items is always an array
+    const processedData = (data || []).map(payment => ({
+      ...payment,
+      payment_items: payment.payment_items || []
+    }));
+
+    return processedData as PaymentWithDetails[];
+  } catch (error) {
+    console.error('Error in fetchPayments:', error);
+    return [];
   }
-
-  return data as PaymentWithDetails[];
 };
