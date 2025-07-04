@@ -42,6 +42,33 @@ export type Database = {
         }
         Relationships: []
       }
+      announcements: {
+        Row: {
+          body: string
+          created_at: string
+          date: string
+          id: string
+          title: string
+          type: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          date?: string
+          id?: string
+          title: string
+          type?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          date?: string
+          id?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           email: string
@@ -66,6 +93,54 @@ export type Database = {
           message?: string
           subject?: string
           submitted_at?: string
+        }
+        Relationships: []
+      }
+      faqs: {
+        Row: {
+          answer: string
+          category: string | null
+          created_at: string
+          id: string
+          question: string
+        }
+        Insert: {
+          answer: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          question: string
+        }
+        Update: {
+          answer?: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          question?: string
+        }
+        Relationships: []
+      }
+      gallery: {
+        Row: {
+          caption: string | null
+          category: string | null
+          id: string
+          image_url: string
+          uploaded_at: string
+        }
+        Insert: {
+          caption?: string | null
+          category?: string | null
+          id?: string
+          image_url: string
+          uploaded_at?: string
+        }
+        Update: {
+          caption?: string | null
+          category?: string | null
+          id?: string
+          image_url?: string
+          uploaded_at?: string
         }
         Relationships: []
       }
@@ -99,6 +174,30 @@ export type Database = {
         }
         Relationships: []
       }
+      news_updates: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          image_url: string | null
+          title: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          title: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           email: string
@@ -114,6 +213,63 @@ export type Database = {
           email?: string
           id?: string
           subscribed_at?: string
+        }
+        Relationships: []
+      }
+      staff_profiles: {
+        Row: {
+          bio: string | null
+          created_at: string
+          department: string | null
+          id: string
+          name: string
+          photo_url: string | null
+          title: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          department?: string | null
+          id?: string
+          name: string
+          photo_url?: string | null
+          title: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          department?: string | null
+          id?: string
+          name?: string
+          photo_url?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          name: string
+          photo_url: string | null
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          name: string
+          photo_url?: string | null
+          role: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          name?: string
+          photo_url?: string | null
+          role?: string
         }
         Relationships: []
       }

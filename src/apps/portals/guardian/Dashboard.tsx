@@ -1,11 +1,16 @@
 
 import React from 'react';
 import { PortalLayout } from '@/components/layouts/portal/PortalLayout';
-import { LayoutDashboard, Users, Calendar, Receipt } from 'lucide-react';
+import { LayoutDashboard, Users, Calendar, Receipt, TrendingUp, Award, Mail, BookOpen } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const navigation = [
   { name: 'Dashboard', href: '/portal/guardian', icon: LayoutDashboard },
+  { name: 'Progress', href: '/portal/guardian/progress', icon: TrendingUp },
+  { name: 'Achievements', href: '/portal/guardian/achievements', icon: Award },
+  { name: 'Payments', href: '/portal/guardian/payments', icon: Receipt },
+  { name: 'Newsletters', href: '/portal/guardian/newsletters', icon: Mail },
+  { name: 'Blog', href: '/portal/guardian/blog', icon: BookOpen },
 ];
 
 const GuardianDashboard = () => {

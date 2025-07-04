@@ -1,4 +1,3 @@
-
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -41,6 +40,14 @@ const EducatorResources = lazy(() => import("./pages/portal/educator/Resources")
 const EducatorTimetable = lazy(() => import("./pages/portal/educator/Timetable"));
 const EducatorMessages = lazy(() => import("./pages/portal/educator/Messages"));
 const EducatorDocuments = lazy(() => import("./pages/portal/educator/Documents"));
+
+// Guardian portal sub-routes
+const GuardianProgress = lazy(() => import("./pages/guardian/Progress"));
+const GuardianAchievements = lazy(() => import("./pages/guardian/Achievements"));
+const GuardianPayments = lazy(() => import("./pages/guardian/Payments"));
+const GuardianNewsletters = lazy(() => import("./pages/guardian/Newsletters"));
+const GuardianBlog = lazy(() => import("./pages/guardian/Blog"));
+const GuardianBlogPost = lazy(() => import("./pages/guardian/BlogPost"));
 
 // Legacy portal imports for backward compatibility
 const LearnerPortal = lazy(() => import("./pages/portal/LearnerPortal"));
@@ -103,6 +110,14 @@ const App = () => (
               <Route path="/portal/learner" element={<LearnerDashboard />} />
               <Route path="/portal/educator" element={<EducatorDashboard />} />
               <Route path="/portal/guardian" element={<GuardianDashboard />} />
+              
+              {/* Guardian portal sub-routes */}
+              <Route path="/portal/guardian/progress" element={<GuardianProgress />} />
+              <Route path="/portal/guardian/achievements" element={<GuardianAchievements />} />
+              <Route path="/portal/guardian/payments" element={<GuardianPayments />} />
+              <Route path="/portal/guardian/newsletters" element={<GuardianNewsletters />} />
+              <Route path="/portal/guardian/blog" element={<GuardianBlog />} />
+              <Route path="/portal/guardian/blog/:slug" element={<GuardianBlogPost />} />
               
               {/* Admin Portal Routes */}
               <Route path="/portal/admin" element={<AdminLogin />} />
