@@ -3,9 +3,8 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useCarousel } from '@/components/ui/carousel';
 import { fetchHeroBanners } from '@/services/supabase/fetchHeroBanners';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
