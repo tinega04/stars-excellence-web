@@ -1,8 +1,8 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import type { ExtendedDatabase } from '@/types/supabase-extensions';
 
-type Student = Database['public']['Tables']['students']['Row'];
+type Student = ExtendedDatabase['public']['Tables']['students']['Row'];
 
 export const fetchStudents = async (): Promise<Student[]> => {
   try {

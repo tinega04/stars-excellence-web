@@ -11,11 +11,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DollarSign, Plus, Search, Filter, Download } from 'lucide-react';
 import { fetchPayments } from '@/services/supabase/fetchPayments';
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import type { ExtendedDatabase } from '@/types/supabase-extensions';
 
-type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
-  students: Database['public']['Tables']['students']['Row'] | null;
-  payment_items: Database['public']['Tables']['payment_items']['Row'][];
+type PaymentWithDetails = ExtendedDatabase['public']['Tables']['payments']['Row'] & {
+  students: ExtendedDatabase['public']['Tables']['students']['Row'] | null;
+  payment_items: ExtendedDatabase['public']['Tables']['payment_items']['Row'][];
 };
 
 const PaymentTracking: React.FC = () => {
@@ -83,12 +83,13 @@ const PaymentTracking: React.FC = () => {
   };
 
   const filteredPayments = payments?.filter(payment => {
+    if (!searchTerm) return true;
     const searchLower = searchTerm.toLowerCase();
     return (
       payment.students?.first_name?.toLowerCase().includes(searchLower) ||
       payment.students?.last_name?.toLowerCase().includes(searchLower) ||
       payment.payment_reference?.toLowerCase().includes(searchLower) ||
-      ''
+      false
     );
   }) || [];
 

@@ -12,10 +12,10 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DollarSign, Plus, Edit, Archive, Copy } from 'lucide-react';
 import { fetchFeeStructures } from '@/services/supabase/fetchFeeStructures';
-import type { Database } from '@/integrations/supabase/types';
+import type { ExtendedDatabase } from '@/types/supabase-extensions';
 
-type FeeStructureWithItems = Database['public']['Tables']['fee_structures']['Row'] & {
-  fee_structure_items: Database['public']['Tables']['fee_structure_items']['Row'][];
+type FeeStructureWithItems = ExtendedDatabase['public']['Tables']['fee_structures']['Row'] & {
+  fee_structure_items: ExtendedDatabase['public']['Tables']['fee_structure_items']['Row'][];
 };
 
 const FeeManagement: React.FC = () => {
@@ -125,7 +125,7 @@ const FeeManagement: React.FC = () => {
                         KSh {(structure.base_amount || 0).toLocaleString()}
                       </span>
                     </div>
-                    {structure.fee_structure_items && structure.fee_structure_items.length > 0 && (
+                    {structure.fee_structure_items && Array.isArray(structure.fee_structure_items) && structure.fee_structure_items.length > 0 && (
                       <div className="pt-2 border-t">
                         <p className="text-sm font-medium mb-2">Fee Breakdown:</p>
                         <div className="grid grid-cols-2 gap-2 text-sm">

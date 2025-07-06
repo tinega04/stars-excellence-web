@@ -9,16 +9,16 @@ import { DatePickerWithRange } from '@/components/ui/date-picker';
 import { DollarSign, Download, FileText, TrendingUp, Users } from 'lucide-react';
 import { fetchPayments } from '@/services/supabase/fetchPayments';
 import { fetchStudentBalances } from '@/services/supabase/fetchStudentBalances';
-import type { Database } from '@/integrations/supabase/types';
+import type { ExtendedDatabase } from '@/types/supabase-extensions';
 
-type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
-  students: Database['public']['Tables']['students']['Row'] | null;
-  payment_items: Database['public']['Tables']['payment_items']['Row'][];
+type PaymentWithDetails = ExtendedDatabase['public']['Tables']['payments']['Row'] & {
+  students: ExtendedDatabase['public']['Tables']['students']['Row'] | null;
+  payment_items: ExtendedDatabase['public']['Tables']['payment_items']['Row'][];
 };
 
-type StudentBalanceWithDetails = Database['public']['Tables']['student_balances']['Row'] & {
-  students: Database['public']['Tables']['students']['Row'] | null;
-  fee_structures: Database['public']['Tables']['fee_structures']['Row'] | null;
+type StudentBalanceWithDetails = ExtendedDatabase['public']['Tables']['student_balances']['Row'] & {
+  students: ExtendedDatabase['public']['Tables']['students']['Row'] | null;
+  fee_structures: ExtendedDatabase['public']['Tables']['fee_structures']['Row'] | null;
 };
 
 const FinancialReports: React.FC = () => {

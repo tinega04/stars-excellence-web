@@ -1,10 +1,10 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import type { ExtendedDatabase } from '@/types/supabase-extensions';
 
-type PaymentWithDetails = Database['public']['Tables']['payments']['Row'] & {
-  students: Database['public']['Tables']['students']['Row'] | null;
-  payment_items: Database['public']['Tables']['payment_items']['Row'][];
+type PaymentWithDetails = ExtendedDatabase['public']['Tables']['payments']['Row'] & {
+  students: ExtendedDatabase['public']['Tables']['students']['Row'] | null;
+  payment_items: ExtendedDatabase['public']['Tables']['payment_items']['Row'][];
 };
 
 export const fetchPayments = async (): Promise<PaymentWithDetails[]> => {
@@ -14,6 +14,7 @@ export const fetchPayments = async (): Promise<PaymentWithDetails[]> => {
       .select(`
         *,
         students (
+          id,
           student_id,
           first_name,
           last_name,
@@ -28,10 +29,13 @@ export const fetchPayments = async (): Promise<PaymentWithDetails[]> => {
       throw error;
     }
 
-    // Ensure payment_items is always an array
+    // Ensure payment_items is always an array and handle null students
     const processedData = (data || []).map(payment => ({
       ...payment,
-      payment_items: payment.payment_items || []
+      students: payment.students || null,
+      payment_items: Array.isArray(payment.payment_items) 
+        ? payment.payment_items 
+        : []
     }));
 
     return processedData as PaymentWithDetails[];

@@ -1,10 +1,10 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import type { ExtendedDatabase } from '@/types/supabase-extensions';
 
-type StudentBalanceWithDetails = Database['public']['Tables']['student_balances']['Row'] & {
-  students: Database['public']['Tables']['students']['Row'] | null;
-  fee_structures: Database['public']['Tables']['fee_structures']['Row'] | null;
+type StudentBalanceWithDetails = ExtendedDatabase['public']['Tables']['student_balances']['Row'] & {
+  students: ExtendedDatabase['public']['Tables']['students']['Row'] | null;
+  fee_structures: ExtendedDatabase['public']['Tables']['fee_structures']['Row'] | null;
 };
 
 export const fetchStudentBalances = async (): Promise<StudentBalanceWithDetails[]> => {
@@ -14,6 +14,7 @@ export const fetchStudentBalances = async (): Promise<StudentBalanceWithDetails[
       .select(`
         *,
         students (
+          id,
           student_id,
           first_name,
           last_name,
@@ -23,6 +24,7 @@ export const fetchStudentBalances = async (): Promise<StudentBalanceWithDetails[
           guardian_email
         ),
         fee_structures (
+          id,
           name,
           academic_year,
           term
@@ -35,7 +37,14 @@ export const fetchStudentBalances = async (): Promise<StudentBalanceWithDetails[
       throw error;
     }
 
-    return (data || []) as StudentBalanceWithDetails[];
+    // Ensure related data is properly handled
+    const processedData = (data || []).map(balance => ({
+      ...balance,
+      students: balance.students || null,
+      fee_structures: balance.fee_structures || null
+    }));
+
+    return processedData as StudentBalanceWithDetails[];
   } catch (error) {
     console.error('Error in fetchStudentBalances:', error);
     return [];
