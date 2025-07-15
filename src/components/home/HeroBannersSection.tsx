@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { fetchHeroBanners, type HeroBanner } from '@/services/supabase/fetchHeroBanners';
 import Autoplay from 'embla-carousel-autoplay';
 import LoadingState from '@/components/ui/LoadingState';
@@ -36,11 +35,19 @@ const HeroBannersSection = () => {
   }, []);
 
   if (loading) {
-    return <LoadingState message="Loading banners..." />;
+    return (
+      <section className="relative bg-gradient-to-br from-blue-50 to-blue-100 min-h-[500px] flex items-center justify-center">
+        <LoadingState />
+      </section>
+    );
   }
 
   if (error || banners.length === 0) {
-    return <EmptyState message="No banners available" />;
+    return (
+      <section className="relative bg-gradient-to-br from-blue-50 to-blue-100 min-h-[500px] flex items-center justify-center">
+        <EmptyState />
+      </section>
+    );
   }
 
   return (

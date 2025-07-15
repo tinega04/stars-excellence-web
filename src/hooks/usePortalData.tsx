@@ -18,30 +18,30 @@ export const useLearnerData = (studentId: string) => {
   const [notifications, setNotifications] = useState<PortalNotification[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const loadLearnerData = async () => {
+    if (!studentId) return;
+
+    try {
+      setLoading(true);
+      const [studentData, academicData, attendanceData, notificationData] = await Promise.all([
+        PortalService.getStudentById(studentId),
+        PortalService.getAcademicRecords(studentId),
+        PortalService.getAttendanceRecords(studentId),
+        PortalService.getNotifications(studentId)
+      ]);
+
+      setStudent(studentData);
+      setAcademicRecords(academicData);
+      setAttendanceRecords(attendanceData);
+      setNotifications(notificationData);
+    } catch (error) {
+      console.error('Error loading learner data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadLearnerData = async () => {
-      if (!studentId) return;
-
-      try {
-        setLoading(true);
-        const [studentData, academicData, attendanceData, notificationData] = await Promise.all([
-          PortalService.getStudentById(studentId),
-          PortalService.getAcademicRecords(studentId),
-          PortalService.getAttendanceRecords(studentId),
-          PortalService.getNotifications(studentId)
-        ]);
-
-        setStudent(studentData);
-        setAcademicRecords(academicData);
-        setAttendanceRecords(attendanceData);
-        setNotifications(notificationData);
-      } catch (error) {
-        console.error('Error loading learner data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadLearnerData();
 
     // Subscribe to real-time updates
@@ -62,7 +62,7 @@ export const useLearnerData = (studentId: string) => {
     attendanceRecords,
     notifications,
     loading,
-    refreshData: () => loadLearnerData()
+    refreshData: loadLearnerData
   };
 };
 
@@ -73,30 +73,30 @@ export const useGuardianData = (guardianId: string) => {
   const [notifications, setNotifications] = useState<PortalNotification[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const loadGuardianData = async () => {
+    if (!guardianId) return;
+
+    try {
+      setLoading(true);
+      const studentsData = await PortalService.getStudentsByGuardian(guardianId);
+      setStudents(studentsData);
+
+      // Get payment records for all students
+      const allPaymentRecords = await Promise.all(
+        studentsData.map(student => PortalService.getPaymentRecords(student.id, guardianId))
+      );
+      setPaymentRecords(allPaymentRecords.flat());
+
+      const notificationData = await PortalService.getNotifications(guardianId);
+      setNotifications(notificationData);
+    } catch (error) {
+      console.error('Error loading guardian data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadGuardianData = async () => {
-      if (!guardianId) return;
-
-      try {
-        setLoading(true);
-        const studentsData = await PortalService.getStudentsByGuardian(guardianId);
-        setStudents(studentsData);
-
-        // Get payment records for all students
-        const allPaymentRecords = await Promise.all(
-          studentsData.map(student => PortalService.getPaymentRecords(student.id, guardianId))
-        );
-        setPaymentRecords(allPaymentRecords.flat());
-
-        const notificationData = await PortalService.getNotifications(guardianId);
-        setNotifications(notificationData);
-      } catch (error) {
-        console.error('Error loading guardian data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadGuardianData();
 
     // Subscribe to notifications
@@ -114,7 +114,7 @@ export const useGuardianData = (guardianId: string) => {
     paymentRecords,
     notifications,
     loading,
-    refreshData: () => loadGuardianData()
+    refreshData: loadGuardianData
   };
 };
 
@@ -123,27 +123,27 @@ export const useEducatorData = (educatorId: string) => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const loadEducatorData = async () => {
+    if (!educatorId) return;
+
+    try {
+      setLoading(true);
+      const studentsData = await PortalService.getStudentsByEducator(educatorId);
+      setStudents(studentsData);
+    } catch (error) {
+      console.error('Error loading educator data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadEducatorData = async () => {
-      if (!educatorId) return;
-
-      try {
-        setLoading(true);
-        const studentsData = await PortalService.getStudentsByEducator(educatorId);
-        setStudents(studentsData);
-      } catch (error) {
-        console.error('Error loading educator data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadEducatorData();
   }, [educatorId]);
 
   return {
     students,
     loading,
-    refreshData: () => loadEducatorData()
+    refreshData: loadEducatorData
   };
 };

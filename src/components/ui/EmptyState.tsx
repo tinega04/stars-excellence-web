@@ -1,44 +1,19 @@
 
-import { LucideIcon } from 'lucide-react';
-import { Button } from './button';
-import { cn } from '@/lib/utils';
+import { FileX } from "lucide-react";
 
 interface EmptyStateProps {
-  icon?: LucideIcon;
-  title: string;
-  description?: string;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-  className?: string;
+  message?: string;
+  icon?: React.ReactNode;
 }
 
 const EmptyState = ({ 
-  icon: Icon, 
-  title, 
-  description, 
-  action, 
-  className 
+  message = "No data available", 
+  icon 
 }: EmptyStateProps) => {
   return (
-    <div className={cn('text-center py-12', className)}>
-      {Icon && (
-        <Icon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-      )}
-      <h3 className="text-lg font-medium text-gray-900 mb-2">
-        {title}
-      </h3>
-      {description && (
-        <p className="text-gray-500 mb-6 max-w-sm mx-auto">
-          {description}
-        </p>
-      )}
-      {action && (
-        <Button onClick={action.onClick} variant="outline">
-          {action.label}
-        </Button>
-      )}
+    <div className="flex flex-col items-center justify-center p-8 space-y-4">
+      {icon || <FileX className="h-12 w-12 text-gray-400" />}
+      <p className="text-gray-500 text-center">{message}</p>
     </div>
   );
 };
