@@ -1,6 +1,14 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import type { Announcement } from '@/types/supabase';
+
+export interface Announcement {
+  id: string;
+  title: string;
+  body: string;
+  type: 'info' | 'important' | 'event';
+  date: string;
+  created_at: string;
+}
 
 export const fetchAnnouncements = async (): Promise<Announcement[]> => {
   console.log('Fetching announcements from Supabase...');

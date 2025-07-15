@@ -1,6 +1,21 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import type { AdmissionsApplicationData } from '@/types/supabase';
+
+export interface ContactInfo {
+  email: string;
+  phone?: string;
+  address?: string;
+  [key: string]: any;
+}
+
+export interface AdmissionsApplicationData {
+  applicant_name: string;
+  parent_name: string;
+  grade_applied_for: string;
+  contact_info: ContactInfo;
+  message?: string;
+  document_url?: string;
+}
 
 export const submitAdmissionsApplication = async (data: AdmissionsApplicationData) => {
   console.log('Submitting admissions application:', data);
@@ -27,4 +42,25 @@ export const submitAdmissionsApplication = async (data: AdmissionsApplicationDat
 
   console.log('Admissions application submitted successfully:', result);
   return result;
+};
+
+export const uploadAdmissionsDocument = async (file: File): Promise<string> => {
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Math.random()}.${fileExt}`;
+  const filePath = `admissions/${fileName}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('admissions-documents')
+    .upload(filePath, file);
+
+  if (uploadError) {
+    console.error('Error uploading file:', uploadError);
+    throw uploadError;
+  }
+
+  const { data } = supabase.storage
+    .from('admissions-documents')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
 };
