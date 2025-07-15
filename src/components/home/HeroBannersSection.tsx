@@ -1,159 +1,108 @@
 
-import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import OptimizedImage from "@/components/ui/OptimizedImage";
-import { fetchHeroBanners, type HeroBanner } from '@/services/supabase/fetchHeroBanners';
-import { Skeleton } from '@/components/ui/skeleton';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { useRef } from 'react';
+import React, { useCallback } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import useEmblaCarousel from 'embla-carousel-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchHeroBanners } from '@/services/supabase/fetchHeroBanners';
+import { LoadingState } from '@/components/ui/LoadingState';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 const HeroBannersSection = () => {
-  const [heroBanners, setHeroBanners] = useState<HeroBanner[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const plugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
-  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    autoplay: true,
+    autoplayDelay: 5000
+  });
 
-  // Fallback hero slides for when there's no data
-  const fallbackSlides = [
-    {
-      title: "Nurturing Excellence From The Start",
-      subtitle: "",
-      description: "Empowering young minds through holistic education tailored for tomorrow's leaders.",
-      primaryCTA: { text: "Explore Our Programs", link: "/academics" },
-      backgroundImage: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Clean classroom environment for student learning"
-    },
-    {
-      title: "A Foundation for Lifelong Success",
-      subtitle: "",
-      description: "We prepare learners to think critically, act ethically, and grow confidently.",
-      primaryCTA: { text: "Learn More", link: "/about" },
-      backgroundImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Students engaged in academic activities"
-    },
-    {
-      title: "Tech Meets Tradition",
-      subtitle: "",
-      description: "We blend modern skills like coding and debate with strong academic values.",
-      primaryCTA: { text: "See Our Vision", link: "/about" },
-      backgroundImage: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1600&h=900&q=80",
-      alt: "Children using laptops and learning together with technology"
-    }
-  ];
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
 
-  useEffect(() => {
-    const loadHeroBanners = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchHeroBanners();
-        setHeroBanners(data);
-      } catch (err) {
-        setError('Failed to load hero banners');
-        console.error('Hero banners error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
-    loadHeroBanners();
-  }, []);
+  const { data: banners, isLoading, error } = useQuery({
+    queryKey: ['hero-banners'],
+    queryFn: fetchHeroBanners,
+  });
 
-  if (loading) {
-    return (
-      <section className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-4">
-            <Skeleton className="h-12 w-96 mx-auto" />
-            <Skeleton className="h-6 w-80 mx-auto" />
-            <Skeleton className="h-10 w-32 mx-auto" />
-          </div>
-        </div>
-      </section>
-    );
+  if (isLoading) {
+    return <LoadingState message="Loading hero banners..." />;
   }
 
-  // Use hero banners from database if available, otherwise use fallback
-  const slidesToRender = heroBanners.length > 0 ? heroBanners : fallbackSlides;
+  if (error) {
+    console.error('Error loading hero banners:', error);
+    return null;
+  }
+
+  if (!banners || banners.length === 0) {
+    return <EmptyState message="No hero banners available" />;
+  }
 
   return (
-    <section className="relative" aria-label="Hero carousel">
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        plugins={[plugin.current]}
-        className="w-full"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
-        <CarouselContent>
-          {slidesToRender.map((slide, index) => (
-            <CarouselItem key={index}>
-              <article className="relative h-96 md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
-                <div className="absolute inset-0 opacity-20">
-                  <OptimizedImage 
-                    src={heroBanners.length > 0 ? (slide as HeroBanner).image_url || fallbackSlides[0].backgroundImage : (slide as any).backgroundImage}
-                    alt={heroBanners.length > 0 ? (slide as HeroBanner).title : (slide as any).alt}
-                    className="w-full h-full object-cover"
-                    loading={index === 0 ? "eager" : "lazy"}
-                    priority={index === 0}
-                    width={1600}
-                    height={900}
-                  />
-                </div>
-                <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center z-10">
-                  <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-blue-800 mb-4 max-w-4xl leading-tight">
-                    {heroBanners.length > 0 ? (slide as HeroBanner).title : (slide as any).title}
-                  </h1>
-                  {heroBanners.length > 0 && (slide as HeroBanner).subtitle && (
-                    <h2 className="text-xl md:text-2xl text-blue-700 mb-4 max-w-3xl">
-                      {(slide as HeroBanner).subtitle}
-                    </h2>
-                  )}
-                  <p className="text-gray-700 mb-8 max-w-2xl text-sm md:text-base lg:text-lg leading-relaxed">
-                    {heroBanners.length > 0 ? 
-                      `Learn more about ${(slide as HeroBanner).title}` : 
-                      (slide as any).description
-                    }
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button asChild size="lg" className="bg-blue-700 hover:bg-blue-800">
-                      <Link 
-                        to={heroBanners.length > 0 ? 
-                          (slide as HeroBanner).cta_link || "/about" : 
-                          (slide as any).primaryCTA.link
-                        }
-                        aria-label={`${heroBanners.length > 0 ? 
-                          (slide as HeroBanner).cta_text || "Learn More" : 
-                          (slide as any).primaryCTA.text
-                        } - Learn more about our programs`}
-                      >
-                        {heroBanners.length > 0 ? 
-                          (slide as HeroBanner).cta_text || "Learn More" : 
-                          (slide as any).primaryCTA.text
-                        }
-                      </Link>
-                    </Button>
+    <section className="relative">
+      <div className="embla overflow-hidden" ref={emblaRef}>
+        <div className="embla__container flex">
+          {banners.map((banner, index) => (
+            <div key={banner.id} className="embla__slide flex-[0_0_100%] min-w-0">
+              <Card className="border-0 rounded-none">
+                <CardContent className="p-0">
+                  <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+                    {banner.image_url && (
+                      <img
+                        src={banner.image_url}
+                        alt={banner.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <div className="text-center text-white px-4 max-w-4xl mx-auto">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                          {banner.title}
+                        </h1>
+                        {banner.subtitle && (
+                          <p className="text-xl md:text-2xl mb-8 opacity-90">
+                            {banner.subtitle}
+                          </p>
+                        )}
+                        {banner.cta_text && banner.cta_link && (
+                          <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                            {banner.cta_text}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </article>
-            </CarouselItem>
+                </CardContent>
+              </Card>
+            </div>
           ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-4 md:left-8" aria-label="Previous slide" />
-        <CarouselNext className="right-4 md:right-8" aria-label="Next slide" />
-      </Carousel>
+        </div>
+      </div>
+
+      {banners.length > 1 && (
+        <>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
+            onClick={scrollPrev}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
+            onClick={scrollNext}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </>
+      )}
     </section>
   );
 };

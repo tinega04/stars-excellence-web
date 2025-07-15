@@ -1,61 +1,30 @@
 
-import { supabase } from '@/lib/supabase';
-
-export interface ContactInfo {
-  email: string;
-  phone: string;
-  address?: string;
-}
-
-export interface AdmissionsApplicationData {
-  applicant_name: string;
-  parent_name: string;
-  contact_info: ContactInfo;
-  grade_applied_for: string;
-  message?: string;
-  document_url?: string;
-}
+import { supabase } from '@/integrations/supabase/client';
+import type { AdmissionsApplicationData } from '@/types/supabase';
 
 export const submitAdmissionsApplication = async (data: AdmissionsApplicationData) => {
-  try {
-    const { error } = await supabase
-      .from('admissions_applications')
-      .insert([data]);
+  console.log('Submitting admissions application:', data);
 
-    if (error) {
-      console.error('Error submitting admissions application:', error);
-      throw error;
-    }
+  // Transform ContactInfo to Json format for database
+  const submissionData = {
+    applicant_name: data.applicant_name,
+    parent_name: data.parent_name,
+    grade_applied_for: data.grade_applied_for,
+    contact_info: data.contact_info as any, // Convert to Json type
+    message: data.message || null,
+    document_url: data.document_url || null,
+  };
 
-    return { success: true };
-  } catch (error) {
-    console.error('Failed to submit admissions application:', error);
+  const { data: result, error } = await supabase
+    .from('admissions_applications')
+    .insert([submissionData])
+    .select();
+
+  if (error) {
+    console.error('Error submitting admissions application:', error);
     throw error;
   }
-};
 
-export const uploadAdmissionsDocument = async (file: File, applicationId: string) => {
-  try {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${applicationId}-${Date.now()}.${fileExt}`;
-    const filePath = `documents/${fileName}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from('admissions-documents')
-      .upload(filePath, file);
-
-    if (uploadError) {
-      console.error('Error uploading document:', uploadError);
-      throw uploadError;
-    }
-
-    const { data: { publicUrl } } = supabase.storage
-      .from('admissions-documents')
-      .getPublicUrl(filePath);
-
-    return { url: publicUrl, path: filePath };
-  } catch (error) {
-    console.error('Failed to upload document:', error);
-    throw error;
-  }
+  console.log('Admissions application submitted successfully:', result);
+  return result;
 };
