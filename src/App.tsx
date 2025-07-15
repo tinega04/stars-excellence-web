@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -6,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
 // Lazy load pages for better performance
 import { lazy } from "react";
@@ -73,6 +75,8 @@ const queryClient = new QueryClient({
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
     },
   },
 });
@@ -88,87 +92,89 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <HelmetProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* Main site routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/academics" element={<Academics />} />
-              <Route path="/campuses" element={<Campuses />} />
-              <Route path="/admissions" element={<Admissions />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/portals" element={<Portals />} />
-              <Route path="/login" element={<Login />} />
-              
-              {/* Main Portal Routes */}
-              <Route path="/portal/learner" element={<LearnerDashboard />} />
-              <Route path="/portal/educator" element={<EducatorDashboard />} />
-              <Route path="/portal/guardian" element={<GuardianDashboard />} />
-              
-              {/* Guardian portal sub-routes */}
-              <Route path="/portal/guardian/progress" element={<GuardianProgress />} />
-              <Route path="/portal/guardian/achievements" element={<GuardianAchievements />} />
-              <Route path="/portal/guardian/payments" element={<GuardianPayments />} />
-              <Route path="/portal/guardian/newsletters" element={<GuardianNewsletters />} />
-              <Route path="/portal/guardian/blog" element={<GuardianBlog />} />
-              <Route path="/portal/guardian/blog/:slug" element={<GuardianBlogPost />} />
-              
-              {/* Admin Portal Routes */}
-              <Route path="/portal/admin" element={<AdminLogin />} />
-              <Route path="/portal/admin/director" element={<AdminDirectorDashboard />} />
-              <Route path="/portal/admin/principal" element={<AdminPrincipalDashboard />} />
-              <Route path="/portal/admin/studies" element={<AdminStudiesDashboard />} />
-              <Route path="/portal/admin/it" element={<AdminITDashboard />} />
-              <Route path="/portal/admin/bursar" element={<AdminBursarDashboard />} />
-              <Route path="/portal/admin/access-denied" element={<AdminAccessDenied />} />
-              
-              {/* IT Admin User Management Routes */}
-              <Route path="/portal/admin/it/users/create" element={<CreateUser />} />
-              <Route path="/portal/admin/it/users/directory" element={<UserDirectory />} />
-              <Route path="/portal/admin/it/users/manage" element={<ManageAccounts />} />
-              
-              {/* Learner portal sub-routes */}
-              <Route path="/portal/learner/dashboard" element={<LearnerDashboard />} />
-              <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
-              <Route path="/portal/learner/attendance" element={<LearnerAttendance />} />
-              <Route path="/portal/learner/assignments" element={<LearnerAssignments />} />
-              <Route path="/portal/learner/results" element={<LearnerResults />} />
-              <Route path="/portal/learner/announcements" element={<LearnerAnnouncements />} />
-              
-              {/* Educator portal sub-routes */}
-              <Route path="/portal/educator/subjects" element={<EducatorSubjects />} />
-              <Route path="/portal/educator/results" element={<EducatorResults />} />
-              <Route path="/portal/educator/materials" element={<EducatorMaterials />} />
-              <Route path="/portal/educator/resources" element={<EducatorResources />} />
-              <Route path="/portal/educator/timetable" element={<EducatorTimetable />} />
-              <Route path="/portal/educator/messages" element={<EducatorMessages />} />
-              <Route path="/portal/educator/documents" element={<EducatorDocuments />} />
-              
-              {/* Redirects from old routes to educator routes */}
-              <Route path="/portal/staff" element={<Navigate to="/portal/educator" replace />} />
-              <Route path="/portal/staff/*" element={<Navigate to="/portal/educator" replace />} />
-              <Route path="/portal/teacher" element={<Navigate to="/portal/educator" replace />} />
-              <Route path="/portal/teacher/*" element={<Navigate to="/portal/educator" replace />} />
-              
-              {/* Legacy portal routes - for backward compatibility */}
-              <Route path="/portal/learner-portal" element={<LearnerPortal />} />
-              <Route path="/portal/staff-portal" element={<StaffPortal />} />
-              <Route path="/portal/learning" element={<LearningPortal />} />
-              
-              {/* 404 route */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </HelmetProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <HelmetProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                {/* Main site routes */}
+                <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/academics" element={<Academics />} />
+                <Route path="/campuses" element={<Campuses />} />
+                <Route path="/admissions" element={<Admissions />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/portals" element={<Portals />} />
+                <Route path="/login" element={<Login />} />
+                
+                {/* Main Portal Routes */}
+                <Route path="/portal/learner" element={<LearnerDashboard />} />
+                <Route path="/portal/educator" element={<EducatorDashboard />} />
+                <Route path="/portal/guardian" element={<GuardianDashboard />} />
+                
+                {/* Guardian portal sub-routes */}
+                <Route path="/portal/guardian/progress" element={<GuardianProgress />} />
+                <Route path="/portal/guardian/achievements" element={<GuardianAchievements />} />
+                <Route path="/portal/guardian/payments" element={<GuardianPayments />} />
+                <Route path="/portal/guardian/newsletters" element={<GuardianNewsletters />} />
+                <Route path="/portal/guardian/blog" element={<GuardianBlog />} />
+                <Route path="/portal/guardian/blog/:slug" element={<GuardianBlogPost />} />
+                
+                {/* Admin Portal Routes */}
+                <Route path="/portal/admin" element={<AdminLogin />} />
+                <Route path="/portal/admin/director" element={<AdminDirectorDashboard />} />
+                <Route path="/portal/admin/principal" element={<AdminPrincipalDashboard />} />
+                <Route path="/portal/admin/studies" element={<AdminStudiesDashboard />} />
+                <Route path="/portal/admin/it" element={<AdminITDashboard />} />
+                <Route path="/portal/admin/bursar" element={<AdminBursarDashboard />} />
+                <Route path="/portal/admin/access-denied" element={<AdminAccessDenied />} />
+                
+                {/* IT Admin User Management Routes */}
+                <Route path="/portal/admin/it/users/create" element={<CreateUser />} />
+                <Route path="/portal/admin/it/users/directory" element={<UserDirectory />} />
+                <Route path="/portal/admin/it/users/manage" element={<ManageAccounts />} />
+                
+                {/* Learner portal sub-routes */}
+                <Route path="/portal/learner/dashboard" element={<LearnerDashboard />} />
+                <Route path="/portal/learner/materials" element={<LearnerMaterials />} />
+                <Route path="/portal/learner/attendance" element={<LearnerAttendance />} />
+                <Route path="/portal/learner/assignments" element={<LearnerAssignments />} />
+                <Route path="/portal/learner/results" element={<LearnerResults />} />
+                <Route path="/portal/learner/announcements" element={<LearnerAnnouncements />} />
+                
+                {/* Educator portal sub-routes */}
+                <Route path="/portal/educator/subjects" element={<EducatorSubjects />} />
+                <Route path="/portal/educator/results" element={<EducatorResults />} />
+                <Route path="/portal/educator/materials" element={<EducatorMaterials />} />
+                <Route path="/portal/educator/resources" element={<EducatorResources />} />
+                <Route path="/portal/educator/timetable" element={<EducatorTimetable />} />
+                <Route path="/portal/educator/messages" element={<EducatorMessages />} />
+                <Route path="/portal/educator/documents" element={<EducatorDocuments />} />
+                
+                {/* Redirects from old routes to educator routes */}
+                <Route path="/portal/staff" element={<Navigate to="/portal/educator" replace />} />
+                <Route path="/portal/staff/*" element={<Navigate to="/portal/educator" replace />} />
+                <Route path="/portal/teacher" element={<Navigate to="/portal/educator" replace />} />
+                <Route path="/portal/teacher/*" element={<Navigate to="/portal/educator" replace />} />
+                
+                {/* Legacy portal routes - for backward compatibility */}
+                <Route path="/portal/learner-portal" element={<LearnerPortal />} />
+                <Route path="/portal/staff-portal" element={<StaffPortal />} />
+                <Route path="/portal/learning" element={<LearningPortal />} />
+                
+                {/* 404 route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </HelmetProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

@@ -13,11 +13,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { useRef } from 'react';
 
 const HeroBannersSection = () => {
   const [heroBanners, setHeroBanners] = useState<HeroBanner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   // Fallback hero slides for when there's no data
   const fallbackSlides = [
@@ -88,12 +92,10 @@ const HeroBannersSection = () => {
           align: "start",
           loop: true,
         }}
-        plugins={[
-          Autoplay({
-            delay: 5000,
-          }),
-        ]}
+        plugins={[plugin.current]}
         className="w-full"
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {slidesToRender.map((slide, index) => (
